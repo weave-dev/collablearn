@@ -5,8 +5,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 /* SCROLLBAR STYLING */
 ::-webkit-scrollbar {
 	@apply w-2 h-2;
@@ -31,7 +29,6 @@
 }
 /* SCROLLBAR STYLING */
 
-
 /* Quill CSS */
 .ql-container {
 	@apply whitespace-pre-wrap p-0;
@@ -46,11 +43,3 @@
 	}
 }
 /* Quill CSS */
-
-@layer components {
-
-}
-
-.btn {
-    @apply min-h-8 h-8;
-}
