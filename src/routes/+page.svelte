@@ -25,7 +25,6 @@
 		Shadow,
 	} from '$lib/types'
 	import { superForm } from 'sveltekit-superforms'
-	import SuperDebug from 'sveltekit-superforms'
 
 	import { userService } from '$lib/modules/authentication'
 	import { ToastVariant } from '$lib/components/Advanced/Toast/types.js'
@@ -57,7 +56,9 @@
 	})
 </script>
 
-<div class="grid place-items-center w-full h-full">
+<div class="bg"></div>
+
+<div class="grid place-items-center w-full h-full relative">
 	<JoyContainer class="h-1/2 flex-wrap w-2/3" justify={Justify.BETWEEN}>
 		<JoyColumn padding={ContainerPadding.MD}>
 			<JoyText
@@ -104,14 +105,19 @@
 					<JoyContainer col gap={ContainerGap.XXS} class="w-full mb-6">
 						<div class="relative w-full">
 							<JoyInput
-								class="w-full"
+								class="w-full group"
 								type="text"
 								placeholder="Username"
 								bordered
 								bind:value={$form.lrn}
 								attributes={$constraints.lrn}
 							>
-								<JoyIcon icon="user-circle" slot="labeled-l" size={Size.LG} />
+								<JoyIcon
+									icon="user-circle"
+									slot="labeled-l"
+									size={Size.LG}
+									class="group-focus-within:text-accent transition-colors duration-200"
+								/>
 							</JoyInput>
 							{#if $errors.lrn}
 								<span class="first-letter:capitalize text-error">{$errors.lrn}</span>
@@ -120,14 +126,19 @@
 
 						<div class="relative w-full">
 							<JoyInput
-								class="w-full"
+								class="w-full group"
 								type="password"
 								placeholder="Password"
 								bordered
 								bind:value={$form.password}
 								attributes={$constraints.password}
 							>
-								<JoyIcon icon="password-cursor" slot="labeled-l" size={Size.LG} />
+								<JoyIcon
+									icon="password-cursor"
+									slot="labeled-l"
+									size={Size.LG}
+									class="group-focus-within:text-accent transition-colors duration-200"
+								/>
 							</JoyInput>
 							{#if $errors.password}
 								<span class="first-letter:capitalize text-error">{$errors.password}</span>
@@ -136,14 +147,19 @@
 
 						<div class="relative w-full">
 							<JoyInput
-								class="w-full"
+								class="w-full group"
 								type="password"
 								placeholder="Confirm Password"
 								bordered
 								bind:value={$form.password_confirmation}
 								attributes={$constraints.password_confirmation}
 							>
-								<JoyIcon icon="password-cursor" slot="labeled-l" size={Size.LG} />
+								<JoyIcon
+									icon="password-cursor"
+									slot="labeled-l"
+									size={Size.LG}
+									class="group-focus-within:text-accent transition-colors duration-200"
+								/>
 							</JoyInput>
 							{#if $errors.password_confirmation}
 								<span class="first-letter:capitalize text-error"
@@ -158,7 +174,7 @@
 						variant={ButtonVariant.PRIMARY}
 						type="submit"
 						disabled={isAuthenticating}
-						class="items-center gap-2 w-full"
+						class="items-center gap-2 w-full shadow-none focus:shadow-lg focus:shadow-primary/50"
 					>
 						{#if isAuthenticating}
 							<JoyIcon icon="loading" />
@@ -169,7 +185,20 @@
 				</JoyContainer>
 			</form>
 
-			<SuperDebug data={$form} />
+			<!-- <SuperDebug data={$form} /> -->
 		</JoyColumn>
 	</JoyContainer>
 </div>
+
+<style lang="scss">
+	.bg {
+		background-image: url('$lib/assets/layered-waves.svg');
+		@apply w-full bg-cover bg-center bg-no-repeat absolute inset-0;
+	}
+
+	@media (orientation: portrait) {
+		:global(body) {
+			background-size: auto 100vh;
+		}
+	}
+</style>
