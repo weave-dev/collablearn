@@ -1,24 +1,7 @@
-export enum App {
-	INDEX = '/',
-}
+export const App = {
+	INDEX: '/',
+} as const
 
-export enum Home {
-	ATTENDANCE = '/home/attendance',
-	FINANCE = '/home/finance',
-	INDEX = '/home',
-	SSP = '/home/shine-school',
-}
-
-export enum Attendance {
-	INDEX = `${Home.ATTENDANCE}`,
-	SCHEDULES = `${Home.ATTENDANCE}/schedule`,
-}
-
-export enum Finance {
-	INDEX = `${Home.FINANCE}`,
-	CASH_REQUESTS = `${Home.FINANCE}/cash-request`,
-}
-
-export enum ShineSchool {
-	INDEX = `${Home.SSP}/`,
-}
+export const Home = {
+	INDEX: '/app',
+} as const
