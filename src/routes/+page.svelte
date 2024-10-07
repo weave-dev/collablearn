@@ -59,7 +59,7 @@
 <div class="bg"></div>
 
 <div class="grid place-items-center w-full h-full relative">
-	<JoyContainer class="h-1/2 flex-wrap w-2/3" justify={Justify.BETWEEN}>
+	<JoyContainer class="flex-wrap w-2/3" justify={Justify.BETWEEN}>
 		<JoyColumn padding={ContainerPadding.MD}>
 			<JoyText
 				tag={TextTag.H1}
@@ -85,30 +85,30 @@
 
 		<!-- Login form -->
 		<JoyColumn
-			shadow={Shadow.MD}
-			rounded={BorderRounded.MD}
-			padding={ContainerPadding.MD}
-			class="w-[500px]"
+			shadow={Shadow.XL}
+			rounded={BorderRounded.LG}
+			padding={ContainerPadding.XL}
+			class="w-[500px] bg-base-100 border"
 		>
 			<JoyText
 				tag={TextTag.H1}
-				size={TextSize.XL_2}
+				size={TextSize.XL_3}
 				weight={FontWeight.BOLD}
-				class="mb-4"
+				class="mb-6"
 			>
 				{$translate('common.label.logIn')}
 			</JoyText>
+
 			<form method="post" use:enhance>
 				<JoyContainer col class="bg-transparent relative">
 					<JoyToast bind:this={toast} target="shell" id="route+page" />
 
-					<JoyContainer col gap={ContainerGap.XXS} class="w-full mb-6">
+					<JoyContainer col gap={ContainerGap.XXS} class="w-full mb-8">
 						<div class="relative w-full">
 							<JoyInput
-								class="w-full group"
+								class="w-full group bg-base-200/25 focus-within:bg-transparent"
 								type="text"
 								placeholder="Username"
-								bordered
 								bind:value={$form.lrn}
 								attributes={$constraints.lrn}
 							>
@@ -116,7 +116,7 @@
 									icon="user-circle"
 									slot="labeled-l"
 									size={Size.LG}
-									class="group-focus-within:text-accent transition-colors duration-200"
+									class="group-focus-within:text-primary transition-colors duration-200"
 								/>
 							</JoyInput>
 							{#if $errors.lrn}
@@ -126,10 +126,9 @@
 
 						<div class="relative w-full">
 							<JoyInput
-								class="w-full group"
+								class="w-full group bg-base-200/25 focus-within:bg-transparent"
 								type="password"
 								placeholder="Password"
-								bordered
 								bind:value={$form.password}
 								attributes={$constraints.password}
 							>
@@ -137,7 +136,7 @@
 									icon="password-cursor"
 									slot="labeled-l"
 									size={Size.LG}
-									class="group-focus-within:text-accent transition-colors duration-200"
+									class="group-focus-within:text-primary transition-colors duration-200"
 								/>
 							</JoyInput>
 							{#if $errors.password}
@@ -147,10 +146,9 @@
 
 						<div class="relative w-full">
 							<JoyInput
-								class="w-full group"
+								class="w-full group bg-base-200/25 focus-within:bg-transparent"
 								type="password"
 								placeholder="Confirm Password"
-								bordered
 								bind:value={$form.password_confirmation}
 								attributes={$constraints.password_confirmation}
 							>
@@ -158,7 +156,7 @@
 									icon="password-cursor"
 									slot="labeled-l"
 									size={Size.LG}
-									class="group-focus-within:text-accent transition-colors duration-200"
+									class="group-focus-within:text-primary transition-colors duration-200"
 								/>
 							</JoyInput>
 							{#if $errors.password_confirmation}
@@ -174,7 +172,7 @@
 						variant={ButtonVariant.PRIMARY}
 						type="submit"
 						disabled={isAuthenticating}
-						class="items-center gap-2 w-full shadow-none focus:shadow-lg focus:shadow-primary/50"
+						class="items-center gap-2 w-full shadow-none focus:shadow-lg focus:shadow-primary/50 z-10"
 					>
 						{#if isAuthenticating}
 							<JoyIcon icon="loading" />
@@ -182,6 +180,17 @@
 
 						{$translate('common.label.signIn')}
 					</JoyButton>
+
+					<div class="border border-neutral border-opacity-25 w-full" />
+
+					<div class="flex justify-center w-full">
+						<span class="-mt-7 bg-base-100 text-center w-1/5 -z-0">or</span>
+					</div>
+					<JoyAnchor
+						plain
+						class="text-center text-sm w-full"
+						label={$translate('common.label.signInAsAdministrator')}
+					/>
 				</JoyContainer>
 			</form>
 
