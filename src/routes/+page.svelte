@@ -42,10 +42,12 @@
 		onUpdate: async ({ form }) => {
 			if (!form.valid) return
 
+			isAuthenticating = true
 			const [err] = await registerUser({
 				...form.data,
 				passwordConfirm: form.data.password_confirmation,
 			})
+			isAuthenticating = false
 
 			if (err) {
 				return toast.fire({ message: err.message, variant: ToastVariant.ERROR })
