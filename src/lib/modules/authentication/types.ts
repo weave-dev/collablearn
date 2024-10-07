@@ -1,9 +1,14 @@
 import type { RecordModel } from 'pocketbase'
 
 export interface User extends RecordModel {
-	avatar: string
 	email: string
 	emailVisibility: boolean
-	name: string
+	lrn: string
 	verified: boolean
+}
+
+export interface UserDTO {
+	lrn: string
+	password: string
+	passwordConfirm: string
 }
