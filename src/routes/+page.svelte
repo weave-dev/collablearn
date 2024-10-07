@@ -1,129 +1,175 @@
-<div class="p-4 flex flex-col gap-4">
-	<div class="navbar bg-base-100">
-		<div class="navbar-start">
-			<div class="dropdown">
-				<div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="h-5 w-5"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
+<script lang="ts">
+	import JoyToast from '$lib/components/Advanced/Toast/JoyToast.svelte'
+	import JoyAnchor from '$lib/components/Base/Anchor/JoyAnchor.svelte'
+	import { ButtonSize, ButtonVariant } from '$lib/components/Base/Button'
+	import JoyButton from '$lib/components/Base/Button/JoyButton.svelte'
+	import JoyColumn from '$lib/components/Base/Column/JoyColumn.svelte'
+	import JoyContainer from '$lib/components/Base/Container/JoyContainer.svelte'
+	import JoyIcon from '$lib/components/Base/Icon/JoyIcon.svelte'
+	import { Size } from '$lib/components/Base/Icon/types'
+	import JoyInput from '$lib/components/Base/Input/JoyInput.svelte'
+	import JoyRow from '$lib/components/Base/Row/JoyRow.svelte'
+	import JoyText from '$lib/components/Base/Text/JoyText.svelte'
+	import {
+		FontWeight,
+		TextColor,
+		TextSize,
+		TextTag,
+	} from '$lib/components/Base/Text/types'
+	import { translate } from '$lib/translations'
+	import {
+		BorderRounded,
+		ContainerGap,
+		ContainerPadding,
+		Justify,
+		Shadow,
+	} from '$lib/types'
+	import { superForm } from 'sveltekit-superforms'
+	import SuperDebug from 'sveltekit-superforms'
+
+	import { userService } from '$lib/modules/authentication'
+	import { ToastVariant } from '$lib/components/Advanced/Toast/types.js'
+	const { registerUser } = userService()
+
+	let isAuthenticating = false,
+		toast: JoyToast
+	export let data
+
+	const { form, enhance, errors, constraints } = superForm(data.validSchema, {
+		dataType: 'json',
+		SPA: true,
+		resetForm: false,
+		validators: data.validator,
+		onUpdate: async ({ form }) => {
+			if (!form.valid) return
+
+			const [err] = await registerUser({
+				...form.data,
+				passwordConfirm: form.data.password_confirmation,
+			})
+
+			if (err) {
+				return toast.fire({ message: err.message, variant: ToastVariant.ERROR })
+			}
+
+			return toast.fire({ message: 'User recorded', variant: ToastVariant.SUCCESS })
+		},
+	})
+</script>
+
+<div class="grid place-items-center w-full h-full">
+	<JoyContainer class="h-1/2 flex-wrap w-2/3" justify={Justify.BETWEEN}>
+		<JoyColumn padding={ContainerPadding.MD}>
+			<JoyText
+				tag={TextTag.H1}
+				size={TextSize.XL_6}
+				weight={FontWeight.BOLD}
+				color={TextColor.PRIMARY}
+				class="mb-4"
+			>
+				{$translate('common.platform.name')}
+			</JoyText>
+			<JoyText tag={TextTag.PARA} size={TextSize.LG} class="whitespace-pre-wrap mb-8">
+				{$translate('common.platform.tagline')}
+			</JoyText>
+			<JoyRow gap={ContainerGap.XXS}>
+				<JoyAnchor
+					variant={ButtonVariant.SECONDARY}
+					label={$translate('common.label.aboutUs')}
+				/>
+
+				<JoyAnchor label={$translate('common.label.faqs')} />
+			</JoyRow>
+		</JoyColumn>
+
+		<!-- Login form -->
+		<JoyColumn
+			shadow={Shadow.MD}
+			rounded={BorderRounded.MD}
+			padding={ContainerPadding.MD}
+			class="w-[500px]"
+		>
+			<JoyText
+				tag={TextTag.H1}
+				size={TextSize.XL_2}
+				weight={FontWeight.BOLD}
+				class="mb-4"
+			>
+				{$translate('common.label.logIn')}
+			</JoyText>
+			<form method="post" use:enhance>
+				<JoyContainer col class="bg-transparent relative">
+					<JoyToast bind:this={toast} target="shell" id="route+page" />
+
+					<JoyContainer col gap={ContainerGap.XXS} class="w-full mb-6">
+						<div class="relative w-full">
+							<JoyInput
+								class="w-full"
+								type="text"
+								placeholder="Username"
+								bordered
+								bind:value={$form.lrn}
+								attributes={$constraints.lrn}
+							>
+								<JoyIcon icon="user-circle" slot="labeled-l" size={Size.LG} />
+							</JoyInput>
+							{#if $errors.lrn}
+								<span class="first-letter:capitalize text-error">{$errors.lrn}</span>
+							{/if}
+						</div>
+
+						<div class="relative w-full">
+							<JoyInput
+								class="w-full"
+								type="password"
+								placeholder="Password"
+								bordered
+								bind:value={$form.password}
+								attributes={$constraints.password}
+							>
+								<JoyIcon icon="password-cursor" slot="labeled-l" size={Size.LG} />
+							</JoyInput>
+							{#if $errors.password}
+								<span class="first-letter:capitalize text-error">{$errors.password}</span>
+							{/if}
+						</div>
+
+						<div class="relative w-full">
+							<JoyInput
+								class="w-full"
+								type="password"
+								placeholder="Confirm Password"
+								bordered
+								bind:value={$form.password_confirmation}
+								attributes={$constraints.password_confirmation}
+							>
+								<JoyIcon icon="password-cursor" slot="labeled-l" size={Size.LG} />
+							</JoyInput>
+							{#if $errors.password_confirmation}
+								<span class="first-letter:capitalize text-error"
+									>{$errors.password_confirmation}</span
+								>
+							{/if}
+						</div>
+					</JoyContainer>
+
+					<JoyButton
+						size={ButtonSize.MD}
+						variant={ButtonVariant.PRIMARY}
+						type="submit"
+						disabled={isAuthenticating}
+						class="items-center gap-2 w-full"
 					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M4 6h16M4 12h16M4 18h7"
-						/>
-					</svg>
-				</div>
-				<ul
-					tabindex="0"
-					class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-				>
-					<li><a>Homepage</a></li>
-					<li><a>Portfolio</a></li>
-					<li><a>About</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="navbar-center">
-			<a class="btn btn-ghost text-xl">daisyUI</a>
-		</div>
-		<div class="navbar-end">
-			<button class="btn btn-ghost btn-circle">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-					/>
-				</svg>
-			</button>
-			<button class="btn btn-ghost btn-circle">
-				<div class="indicator">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						class="h-5 w-5"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-						/>
-					</svg>
-					<span class="badge badge-xs badge-primary indicator-item"></span>
-				</div>
-			</button>
-		</div>
-	</div>
+						{#if isAuthenticating}
+							<JoyIcon icon="loading" />
+						{/if}
 
-	<div class="flex gap-2 justify-center items-center">
-		<button class="btn btn-primary btn-lg">Button</button>
-		<button class="btn btn-secondary btn-lg">Button</button>
-		<button class="btn btn-accent btn-lg">Button</button>
-		<button class="btn btn-error btn-lg">Button</button>
-		<button class="btn btn-info btn-lg">Button</button>
-		<button class="btn btn-success btn-lg">Button</button>
-		<button class="btn btn-warning btn-lg">Button</button>
-	</div>
+						{$translate('common.label.signIn')}
+					</JoyButton>
+				</JoyContainer>
+			</form>
 
-	<div class="flex gap-2 justify-center items-center">
-		<button class="btn btn-primary">Button</button>
-		<button class="btn btn-secondary">Button</button>
-		<button class="btn btn-accent">Button</button>
-		<button class="btn btn-error">Button</button>
-		<button class="btn btn-info">Button</button>
-		<button class="btn btn-success">Button</button>
-		<button class="btn btn-warning">Button</button>
-	</div>
-
-	<div class="flex gap-2 justify-center items-center">
-		<button class="btn btn-primary btn-sm">Button</button>
-		<button class="btn btn-secondary btn-sm">Button</button>
-		<button class="btn btn-accent btn-sm">Button</button>
-		<button class="btn btn-error btn-sm">Button</button>
-		<button class="btn btn-info btn-sm">Button</button>
-		<button class="btn btn-success btn-sm">Button</button>
-		<button class="btn btn-warning btn-sm">Button</button>
-	</div>
-
-	<div class="flex gap-2 justify-center items-center">
-		<button class="btn btn-primary btn-xs">Button</button>
-		<button class="btn btn-secondary btn-xs">Button</button>
-		<button class="btn btn-accent btn-xs">Button</button>
-		<button class="btn btn-error btn-xs">Button</button>
-		<button class="btn btn-info btn-xs">Button</button>
-		<button class="btn btn-success btn-xs">Button</button>
-		<button class="btn btn-warning btn-xs">Button</button>
-	</div>
-
-	<div class="mockup-code">
-		<pre data-prefix="$"><code>npm i daisyui</code></pre>
-		<pre data-prefix=">" class="text-warning"><code>installing...</code></pre>
-		<pre data-prefix=">" class="text-success"><code>Done!</code></pre>
-	</div>
-
-	<div class="flex gap-4 flex-wrap justify-center">
-		{#each { length: 6 } as _}
-			<div class="flex w-52 flex-col gap-4">
-				<div class="skeleton h-32 w-full"></div>
-				<div class="skeleton h-4 w-28"></div>
-				<div class="skeleton h-4 w-full"></div>
-				<div class="skeleton h-4 w-full"></div>
-			</div>
-		{/each}
-	</div>
+			<SuperDebug data={$form} />
+		</JoyColumn>
+	</JoyContainer>
 </div>
