@@ -1,7 +1,9 @@
 import { pb } from '$lib/modules/authentication'
 import { writable } from 'svelte/store'
+import JoyToast from '$lib/components/Advanced/Toast/JoyToast.svelte'
 
-export namespace App {
-	export const getAuthStore = () => pb.authStore
-	export const isLoading = writable(false)
-}
+export const App = {
+	getAuthStore: () => pb.authStore,
+	isLoading: writable(false),
+	toast: writable<JoyToast>(),
+} as const
