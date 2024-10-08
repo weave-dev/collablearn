@@ -64,7 +64,7 @@
 		<JoyContainer col class="bg-transparent relative">
 			<JoyToast bind:this={toast} target="shell" id="route+page" />
 
-			<JoyContainer col gap={ContainerGap.XS} class="w-full mb-8">
+			<JoyContainer col gap={ContainerGap.XS} class="w-full mb-6">
 				<div class="relative w-full">
 					<JoyInput
 						class="w-full group bg-base-200/25 focus-within:bg-transparent"
@@ -82,7 +82,7 @@
 					</JoyInput>
 
 					<span
-						class="first-letter:capitalize text-error text-sm"
+						class="first-letter:capitalize text-error text-sm select-none"
 						class:text-transparent={!$errors.username}
 					>
 						{$errors.username}
@@ -106,7 +106,7 @@
 					</JoyInput>
 
 					<span
-						class="first-letter:capitalize text-error text-sm"
+						class="first-letter:capitalize text-error text-sm select-none"
 						class:text-transparent={!$errors.password}
 					>
 						{$errors.password}

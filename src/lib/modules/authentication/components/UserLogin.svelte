@@ -69,7 +69,7 @@
 
 	<form method="post" use:enhance>
 		<JoyContainer col class="bg-transparent relative">
-			<JoyContainer col gap={ContainerGap.XS} class="w-full mb-8">
+			<JoyContainer col gap={ContainerGap.XS} class="w-full mb-6">
 				<div class="relative w-full">
 					<JoyInput
 						class="w-full group bg-base-200/25 focus-within:bg-transparent"
@@ -87,7 +87,7 @@
 					</JoyInput>
 
 					<span
-						class="first-letter:capitalize text-error text-sm"
+						class="first-letter:capitalize text-error text-sm select-none"
 						class:text-transparent={!$errors.lrn}
 					>
 						{$errors.lrn}
@@ -111,7 +111,7 @@
 					</JoyInput>
 
 					<span
-						class="first-letter:capitalize text-error text-sm"
+						class="first-letter:capitalize text-error text-sm select-none"
 						class:text-transparent={!$errors.password}
 					>
 						{$errors.password}
