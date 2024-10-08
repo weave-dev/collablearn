@@ -15,6 +15,12 @@ const config = {
 			loader: async () => (await import('./en/authentication.json')).default,
 		},
 
+		{
+			locale: 'en',
+			key: 'user-roles',
+			loader: async () => (await import('./en/user-roles.json')).default,
+		},
+
 		// Routes specific translations
 		// {
 		// 	locale: 'en',
