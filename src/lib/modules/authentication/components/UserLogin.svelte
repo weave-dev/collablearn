@@ -19,9 +19,12 @@
 		FormMode,
 		authService,
 		type UserLoginDTO,
+		AuthError,
+		type AuthErrorKeys,
 	} from '$lib/modules/authentication'
 	import { ToastVariant } from '$lib/components/Advanced/Toast/types.js'
 	import { App } from '$lib/modules/app'
+	import { ClientResponseError } from 'pocketbase'
 
 	export let validSchema: SuperValidated<UserLoginDTO, unknown, UserLoginDTO>
 	export let validator: ValidationAdapter<UserLoginDTO, UserLoginDTO>
@@ -44,13 +47,12 @@
 			isAuthenticating = false
 
 			if (err) {
-				return $toast.fire({ message: err.message, variant: ToastVariant.ERROR })
+				const error = err as ClientResponseError
+				let message = $translate(
+					`auth.errors.${AuthError[error.status as AuthErrorKeys]}`
+				)
+				return $toast.fire({ message, variant: ToastVariant.ERROR })
 			}
-
-			return $toast.fire({
-				message: 'Successfully logged in',
-				variant: ToastVariant.SUCCESS,
-			})
 		},
 	})
 </script>

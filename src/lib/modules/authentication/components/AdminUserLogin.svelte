@@ -46,11 +46,6 @@
 			if (err) {
 				return toast.fire({ message: err.message, variant: ToastVariant.ERROR })
 			}
-
-			return toast.fire({
-				message: 'Successfully logged in',
-				variant: ToastVariant.SUCCESS,
-			})
 		},
 	})
 </script>

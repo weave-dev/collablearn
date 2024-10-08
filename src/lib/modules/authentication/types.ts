@@ -24,3 +24,9 @@ export interface UserLoginDTO extends LoginDTO {
 export interface NewUserDTO extends UserLoginDTO {
 	passwordConfirm: string
 }
+
+export type AuthErrorKeys = keyof typeof AuthError
+export type AuthErrorValues = (typeof AuthError)[keyof typeof AuthError]
+export const AuthError = {
+	404: 'notFound',
+} as const
