@@ -1,4 +1,5 @@
 import { writable } from 'svelte/store'
-import type { Role } from './types'
+import type { Role, UserRole } from './types'
 
-export const currentUserRoles = writable<Array<Role>>()
+export const currentUserRole = writable<UserRole>()
+export const currentRoles = writable<Array<Role>>()

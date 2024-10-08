@@ -3,6 +3,7 @@ import type { RecordModel } from 'pocketbase'
 export enum Roles {
 	ADMIN = 'admin',
 	MODERATOR = 'moderator',
+	STUDENT = 'student',
 }
 
 export interface Role extends RecordModel {
@@ -12,6 +13,6 @@ export interface Role extends RecordModel {
 
 export interface UserRole extends RecordModel {
 	user_id: string
-	role_id: Array<string>
-	expand?: { role_id: Array<Role> }
+	roles: Array<string>
+	expand: { roles: Array<Role> }
 }
