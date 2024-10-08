@@ -1,13 +1,8 @@
 <script lang="ts">
-	import JoyToast from '$lib/components/Advanced/Toast/JoyToast.svelte'
 	import JoyAnchor from '$lib/components/Base/Anchor/JoyAnchor.svelte'
-	import { ButtonSize, ButtonVariant } from '$lib/components/Base/Button'
-	import JoyButton from '$lib/components/Base/Button/JoyButton.svelte'
+	import { ButtonVariant } from '$lib/components/Base/Button'
 	import JoyColumn from '$lib/components/Base/Column/JoyColumn.svelte'
 	import JoyContainer from '$lib/components/Base/Container/JoyContainer.svelte'
-	import JoyIcon from '$lib/components/Base/Icon/JoyIcon.svelte'
-	import { Size } from '$lib/components/Base/Icon/types'
-	import JoyInput from '$lib/components/Base/Input/JoyInput.svelte'
 	import JoyRow from '$lib/components/Base/Row/JoyRow.svelte'
 	import JoyText from '$lib/components/Base/Text/JoyText.svelte'
 	import {
@@ -16,49 +11,22 @@
 		TextSize,
 		TextTag,
 	} from '$lib/components/Base/Text/types'
+	import { formMode } from '$lib/modules/authentication'
+	import { FormMode } from '$lib/modules/authentication/components/types'
+	import RegisterLrn from '$lib/modules/authentication/components/RegisterLrn.svelte'
+	import UserLogin from '$lib/modules/authentication/components/UserLogin.svelte'
 	import { translate } from '$lib/translations'
-	import {
-		BorderRounded,
-		ContainerGap,
-		ContainerPadding,
-		Justify,
-		Shadow,
-	} from '$lib/types'
-	import { superForm } from 'sveltekit-superforms'
-	import SuperDebug from 'sveltekit-superforms'
+	import { ContainerGap, ContainerPadding, Justify } from '$lib/types'
+	import type { PageData } from './$types'
+	import AdminUserLogin from '$lib/modules/authentication/components/AdminUserLogin.svelte'
 
-	import { userService } from '$lib/modules/authentication'
-	import { ToastVariant } from '$lib/components/Advanced/Toast/types.js'
-	const { registerUser } = userService()
-
-	let isAuthenticating = false,
-		toast: JoyToast
-	export let data
-
-	const { form, enhance, errors, constraints } = superForm(data.validSchema, {
-		dataType: 'json',
-		SPA: true,
-		resetForm: false,
-		validators: data.validator,
-		onUpdate: async ({ form }) => {
-			if (!form.valid) return
-
-			const [err] = await registerUser({
-				...form.data,
-				passwordConfirm: form.data.password_confirmation,
-			})
-
-			if (err) {
-				return toast.fire({ message: err.message, variant: ToastVariant.ERROR })
-			}
-
-			return toast.fire({ message: 'User recorded', variant: ToastVariant.SUCCESS })
-		},
-	})
+	export let data: PageData
 </script>
 
-<div class="grid place-items-center w-full h-full">
-	<JoyContainer class="h-1/2 flex-wrap w-2/3" justify={Justify.BETWEEN}>
+<div class="bg"></div>
+
+<div class="grid place-items-center w-full h-full relative">
+	<JoyContainer class="flex-wrap w-2/3" justify={Justify.BETWEEN}>
 		<JoyColumn padding={ContainerPadding.MD}>
 			<JoyText
 				tag={TextTag.H1}
@@ -82,94 +50,32 @@
 			</JoyRow>
 		</JoyColumn>
 
-		<!-- Login form -->
-		<JoyColumn
-			shadow={Shadow.MD}
-			rounded={BorderRounded.MD}
-			padding={ContainerPadding.MD}
-			class="w-[500px]"
-		>
-			<JoyText
-				tag={TextTag.H1}
-				size={TextSize.XL_2}
-				weight={FontWeight.BOLD}
-				class="mb-4"
-			>
-				{$translate('common.label.logIn')}
-			</JoyText>
-			<form method="post" use:enhance>
-				<JoyContainer col class="bg-transparent relative">
-					<JoyToast bind:this={toast} target="shell" id="route+page" />
-
-					<JoyContainer col gap={ContainerGap.XXS} class="w-full mb-6">
-						<div class="relative w-full">
-							<JoyInput
-								class="w-full"
-								type="text"
-								placeholder="Username"
-								bordered
-								bind:value={$form.lrn}
-								attributes={$constraints.lrn}
-							>
-								<JoyIcon icon="user-circle" slot="labeled-l" size={Size.LG} />
-							</JoyInput>
-							{#if $errors.lrn}
-								<span class="first-letter:capitalize text-error">{$errors.lrn}</span>
-							{/if}
-						</div>
-
-						<div class="relative w-full">
-							<JoyInput
-								class="w-full"
-								type="password"
-								placeholder="Password"
-								bordered
-								bind:value={$form.password}
-								attributes={$constraints.password}
-							>
-								<JoyIcon icon="password-cursor" slot="labeled-l" size={Size.LG} />
-							</JoyInput>
-							{#if $errors.password}
-								<span class="first-letter:capitalize text-error">{$errors.password}</span>
-							{/if}
-						</div>
-
-						<div class="relative w-full">
-							<JoyInput
-								class="w-full"
-								type="password"
-								placeholder="Confirm Password"
-								bordered
-								bind:value={$form.password_confirmation}
-								attributes={$constraints.password_confirmation}
-							>
-								<JoyIcon icon="password-cursor" slot="labeled-l" size={Size.LG} />
-							</JoyInput>
-							{#if $errors.password_confirmation}
-								<span class="first-letter:capitalize text-error"
-									>{$errors.password_confirmation}</span
-								>
-							{/if}
-						</div>
-					</JoyContainer>
-
-					<JoyButton
-						size={ButtonSize.MD}
-						variant={ButtonVariant.PRIMARY}
-						type="submit"
-						disabled={isAuthenticating}
-						class="items-center gap-2 w-full"
-					>
-						{#if isAuthenticating}
-							<JoyIcon icon="loading" />
-						{/if}
-
-						{$translate('common.label.signIn')}
-					</JoyButton>
-				</JoyContainer>
-			</form>
-
-			<SuperDebug data={$form} />
-		</JoyColumn>
+		<!-- Register form -->
+		{#if $formMode === FormMode.REGISTER}
+			<RegisterLrn
+				validSchema={data.registerValidSchema}
+				validator={data.registerValidator}
+			/>
+		{:else if $formMode == FormMode.USER_LOGIN}
+			<UserLogin validSchema={data.loginValidSchema} validator={data.loginValidator} />
+		{:else if $formMode == FormMode.ADMIN_LOGIN}
+			<AdminUserLogin
+				validSchema={data.loginAdminValidSchema}
+				validator={data.loginAdminValidator}
+			/>
+		{/if}
 	</JoyContainer>
 </div>
+
+<style lang="scss">
+	.bg {
+		background-image: url('$lib/assets/layered-waves.svg');
+		@apply w-full bg-cover bg-center bg-no-repeat absolute inset-0;
+	}
+
+	@media (orientation: portrait) {
+		:global(body) {
+			background-size: auto 100vh;
+		}
+	}
+</style>

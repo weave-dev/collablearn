@@ -8,6 +8,13 @@ const config = {
 			key: 'common',
 			loader: async () => (await import('./en/common.json')).default,
 		},
+
+		{
+			locale: 'en',
+			key: 'auth',
+			loader: async () => (await import('./en/authentication.json')).default,
+		},
+
 		// Routes specific translations
 		// {
 		// 	locale: 'en',

@@ -2,11 +2,16 @@
 	"label": {
 		"aboutUs": "About Us",
 		"faqs": "FAQ's",
-		"logIn": "Log In",
-		"signIn": "Sign In"
+		"logIn": "Log in to your account",
+		"logInAsAdmin": "Hello Admin 👋",
+		"signIn": "Sign In",
+		"signOut": "Sign Out",
+		"createAccount": "Create Account",
+		"signInAsAdministrator": "Sign in as Administrator",
+		"signInAsStudent": "Sign in as Student"
 	},
 	"platform": {
-		"name": "Collab Learn",
+		"name": "CollabLearn",
 		"tagline": "Learn, Grow, Collaborate. \nElevate Your Knowledge Journey!"
 	}
 }

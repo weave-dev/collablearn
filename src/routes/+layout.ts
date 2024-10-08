@@ -2,8 +2,9 @@ export const ssr = false
 export const csr = true
 
 import { loadTranslations } from '$lib/translations'
+import type { LayoutLoad } from './$types'
 
-export const load = async ({ url }) => {
+export const load: LayoutLoad = async ({ url }) => {
 	const { pathname } = url
 
 	const initLocale = 'en' // get from cookie, user session, ...
