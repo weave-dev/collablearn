@@ -1,3 +1,4 @@
+import IcBaselineDashboard from '~icons/ic/baseline-dashboard'
 import IconoirCrownCircle from '~icons/iconoir/crown-circle'
 import IconoirHome from '~icons/iconoir/home'
 import IconoirSettings from '~icons/iconoir/settings'
@@ -27,6 +28,8 @@ import IconoirNavArrowRight from '~icons/iconoir/nav-arrow-right'
 import IonExitOutline from '~icons/ion/exit-outline'
 import IonAlarm from '~icons/ion/alarm'
 import IonTime from '~icons/ion/time'
+import IonPeopleSharp from '~icons/ion/people-sharp'
+import SolarBellBold from '~icons/solar/bell-bold'
 import SolarCashOutBold from '~icons/solar/cash-out-bold'
 import SolarHandMoneyLinear from '~icons/solar/hand-money-linear'
 import SolarHamburgerMenuLineDuotone from '~icons/solar/hamburger-menu-line-duotone'
@@ -37,6 +40,8 @@ export type UnplugIconName = keyof typeof icons
 export const icons = {
 	alarm: IonAlarm,
 	'arrow-right': IconoirArrowRight,
+	'baseline-dashboard': IcBaselineDashboard,
+	'bell-bold': SolarBellBold,
 	'check-circle': IconoirCheckCircle,
 	'check-circle-solid': IconoirCheckCircleSolid,
 	'cash-out-bold': SolarCashOutBold,
@@ -53,6 +58,7 @@ export const icons = {
 	'nav-arrow-right': IconoirNavArrowRight,
 	'nav-arrow-up': IconoirNavArrowUp,
 	'password-cursor': IconoirPasswordCursor,
+	'people-sharp': IonPeopleSharp,
 	'plus-circle-solid': IconoirPlusCircleSolid,
 	'question-mark-circle': IconoirQuestionMarkCircle,
 	'refresh-double': IconoirRefreshDouble,
