@@ -20,6 +20,12 @@ const config = {
 			key: 'user-roles',
 			loader: async () => (await import('./en/user-roles.json')).default,
 		},
+		{
+			locale: 'en',
+			key: 'dashboard',
+			loader: async () => (await import('./en/dashboard.json')).default,
+		},
+
 
 		// Routes specific translations
 		// {
