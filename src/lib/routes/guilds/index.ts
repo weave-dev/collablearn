@@ -16,11 +16,13 @@ export const useGuildRoutes = (t: typeof translate) => {
 
 	const guildRoutes = writable<Route[]>([
 		GUILD_ROUTE,
-		// {
-		// 	path: .SCHEDULES,
-		// 	icon: 'sort-by-time-bold',
-		// 	label: 'Schedules',
-		// },
+		{
+			path: Guild.JOINED,
+			icon: 'people-sharp',
+			isShown: true,
+			label: $translate('common.routes.joinedGuilds'),
+			group: RouteGroup.MY_TASKS,
+		},
 	])
 
 	return {

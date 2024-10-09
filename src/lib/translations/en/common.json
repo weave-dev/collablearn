@@ -21,7 +21,14 @@
 		"lessonActivities": "Lesson Activities"
 	},
 	"routes": {
+		"catchUpFridays": "Catch-up Fridays",
+		"guilds": "Guilds",
 		"home": "Home",
-		"guilds": "Guilds"
+		"learningModules": "Learning Modules",
+		"lessonMaterials": "Lesson Materials",
+		"joinedGuilds": "Joined Guilds",
+		"joinedProjects": "Joined Projects",
+		"projects": "Projects",
+		"recentTasks": "Recent Tasks"
 	}
 }
