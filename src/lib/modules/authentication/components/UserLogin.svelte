@@ -19,9 +19,12 @@
 		FormMode,
 		authService,
 		type UserLoginDTO,
+		AuthError,
+		type AuthErrorKeys,
 	} from '$lib/modules/authentication'
 	import { ToastVariant } from '$lib/components/Advanced/Toast/types.js'
 	import { App } from '$lib/modules/app'
+	import { ClientResponseError } from 'pocketbase'
 
 	export let validSchema: SuperValidated<UserLoginDTO, unknown, UserLoginDTO>
 	export let validator: ValidationAdapter<UserLoginDTO, UserLoginDTO>
@@ -44,13 +47,12 @@
 			isAuthenticating = false
 
 			if (err) {
-				return $toast.fire({ message: err.message, variant: ToastVariant.ERROR })
+				const error = err as ClientResponseError
+				let message = $translate(
+					`auth.errors.${AuthError[error.status as AuthErrorKeys]}`
+				)
+				return $toast.fire({ message, variant: ToastVariant.ERROR })
 			}
-
-			return $toast.fire({
-				message: 'Successfully logged in',
-				variant: ToastVariant.SUCCESS,
-			})
 		},
 	})
 </script>
@@ -67,7 +69,7 @@
 
 	<form method="post" use:enhance>
 		<JoyContainer col class="bg-transparent relative">
-			<JoyContainer col gap={ContainerGap.XS} class="w-full mb-8">
+			<JoyContainer col gap={ContainerGap.XS} class="w-full mb-6">
 				<div class="relative w-full">
 					<JoyInput
 						class="w-full group bg-base-200/25 focus-within:bg-transparent"
@@ -85,7 +87,7 @@
 					</JoyInput>
 
 					<span
-						class="first-letter:capitalize text-error text-sm"
+						class="first-letter:capitalize text-error text-sm select-none"
 						class:text-transparent={!$errors.lrn}
 					>
 						{$errors.lrn}
@@ -109,7 +111,7 @@
 					</JoyInput>
 
 					<span
-						class="first-letter:capitalize text-error text-sm"
+						class="first-letter:capitalize text-error text-sm select-none"
 						class:text-transparent={!$errors.password}
 					>
 						{$errors.password}

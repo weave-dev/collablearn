@@ -6,7 +6,7 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'Poppins', ...defaultTheme.fontFamily.sans],
+				sans: ['Century Gothic', 'Inter', ...defaultTheme.fontFamily.sans],
 			},
 		},
 	},
@@ -20,11 +20,11 @@ export default {
 		themes: [
 			{
 				mytheme: {
-					primary: '#3eaef8',
+					primary: '#800000',
 					secondary: '#f1c40e',
 					accent: '#ff7566',
 					neutral: '#070708',
-          base: '#f9f9fb',
+					base: '#f9f9fb',
 					'base-100': '#fafbff',
 					info: '#38bdf8',
 					success: '#a3e635',

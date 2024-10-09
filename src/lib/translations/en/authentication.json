@@ -1,4 +1,7 @@
 {
+	"errors": {
+		"notFound": "User with this LRN doesn't exist"
+	},
 	"validation": {
 		"username": "Username is required",
 		"lrn": "LRN is required",

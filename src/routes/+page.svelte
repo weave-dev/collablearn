@@ -23,8 +23,6 @@
 	export let data: PageData
 </script>
 
-<div class="bg"></div>
-
 <div class="grid place-items-center w-full h-full relative">
 	<JoyContainer class="flex-wrap w-2/3" justify={Justify.BETWEEN}>
 		<JoyColumn padding={ContainerPadding.MD}>
@@ -42,11 +40,16 @@
 			</JoyText>
 			<JoyRow gap={ContainerGap.XXS}>
 				<JoyAnchor
-					variant={ButtonVariant.SECONDARY}
+					class="rounded-full btn-outline"
+					variant={ButtonVariant.NEUTRAL}
 					label={$translate('common.label.aboutUs')}
 				/>
 
-				<JoyAnchor label={$translate('common.label.faqs')} />
+				<JoyAnchor
+					class="rounded-full btn-outline"
+					variant={ButtonVariant.NEUTRAL}
+					label={$translate('common.label.faqs')}
+				/>
 			</JoyRow>
 		</JoyColumn>
 
@@ -68,10 +71,11 @@
 </div>
 
 <style lang="scss">
-	.bg {
+	/* no waves sad */
+	/* .bg {
 		background-image: url('$lib/assets/layered-waves.svg');
 		@apply w-full bg-cover bg-center bg-no-repeat absolute inset-0;
-	}
+	} */
 
 	@media (orientation: portrait) {
 		:global(body) {
