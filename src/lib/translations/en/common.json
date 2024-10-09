@@ -4,6 +4,7 @@
 		"faqs": "FAQ's",
 		"logIn": "Log in to your account",
 		"logInAsAdmin": "Hello Admin 👋",
+		"lrn": "LRN:",
 		"signIn": "Sign In",
 		"signOut": "Sign Out",
 		"createAccount": "Create Account",
@@ -13,5 +14,14 @@
 	"platform": {
 		"name": "Collab Learn",
 		"tagline": "Learn, Grow, Collaborate. \nElevate Your Knowledge Journey!"
+	},
+	"sidebar": {
+		"menu": "Menu",
+		"myTasks": "My Tasks",
+		"lessonActivities": "Lesson Activities"
+	},
+	"routes": {
+		"home": "Home",
+		"guilds": "Guilds"
 	}
 }
