@@ -1,0 +1,10 @@
+{
+	"label": {
+		"completedTask": "Completed Tasks",
+		"upcomingTask": "Upcoming Tasks",
+		"dueToday": "Due Today",
+		"overdueTask": "Overdue Tasks",
+		"filter": "Filter",
+        "recentProject" : "Recent Project(s)"
+	}
+}

@@ -18,6 +18,12 @@
 	} from '$lib/types'
 	import JoyButton from '$lib/components/Base/Button/JoyButton.svelte'
 	import { ButtonVariant } from '$lib/components/Base/Button'
+    import {DateTime} from 'luxon'
+	import { commonFormat } from '$lib/composables/useDateUtils'
+	import { user } from '$lib/modules/authentication'
+	import { translate } from '$lib/translations'
+   
+    let now = commonFormat(DateTime.now().toString())
 </script>
 
 <JoyContainer
@@ -28,12 +34,12 @@
 >
 	<JoyContainer class="w-full" padding={ContainerPadding.SM}>
 		<JoyContainer col={true}>
-			<JoyText tag={TextTag.PARA} size={TextSize.XS}>Thursday, August 29</JoyText>
+			<JoyText tag={TextTag.PARA} size={TextSize.XS}>{now}</JoyText>
 			<JoyText
 				tag={TextTag.H1}
 				weight={FontWeight.BOLD}
 				size={TextSize.XL_3}
-				color={TextColor.PRIMARY}>Hi John</JoyText
+				color={TextColor.PRIMARY}>Hi {$user?.username}</JoyText
 			>
 		</JoyContainer>
 	</JoyContainer>
@@ -45,7 +51,21 @@
 			padding={ContainerPadding.SM}
 			border={Border.XXS}
 		>
-			<JoyText tag={TextTag.PARA} size={TextSize.SM}>Completed Tasks</JoyText>
+			<JoyText tag={TextTag.PARA} size={TextSize.SM}>
+                {$translate('dashboard.label.completedTask')}
+            </JoyText>
+			<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.PRIMARY}
+				>{$translate('dashboard.label.filter')}</JoyText
+			>
+			<JoyText tag={TextTag.H1} size={TextSize.XL_6} weight={FontWeight.BOLD}>0</JoyText>
+		</JoyContainer>
+		<JoyContainer
+			col={true}
+			rounded={BorderRounded.XL}
+			padding={ContainerPadding.SM}
+			border={Border.XXS}
+		>
+			<JoyText tag={TextTag.PARA} size={TextSize.SM}>{$translate('dashboard.label.upcomingTask')}</JoyText>
 			<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.PRIMARY}
 				>filter</JoyText
 			>
@@ -57,19 +77,7 @@
 			padding={ContainerPadding.SM}
 			border={Border.XXS}
 		>
-			<JoyText tag={TextTag.PARA} size={TextSize.SM}>Upcoming Tasks</JoyText>
-			<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.PRIMARY}
-				>filter</JoyText
-			>
-			<JoyText tag={TextTag.H1} size={TextSize.XL_6} weight={FontWeight.BOLD}>0</JoyText>
-		</JoyContainer>
-		<JoyContainer
-			col={true}
-			rounded={BorderRounded.XL}
-			padding={ContainerPadding.SM}
-			border={Border.XXS}
-		>
-			<JoyText tag={TextTag.PARA} size={TextSize.SM}>Due Today</JoyText>
+			<JoyText tag={TextTag.PARA} size={TextSize.SM}>{$translate('dashboard.label.dueToday')}</JoyText>
 			<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.PRIMARY}
 				>filter</JoyText
 			>
@@ -82,7 +90,7 @@
 			padding={ContainerPadding.SM}
 			border={Border.XXS}
 		>
-			<JoyText tag={TextTag.PARA} size={TextSize.SM}>Overdue Tasks</JoyText>
+			<JoyText tag={TextTag.PARA} size={TextSize.SM}>{$translate('dashboard.label.overdueTask')}</JoyText>
 			<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.PRIMARY}
 				>filter</JoyText
 			>
@@ -104,14 +112,14 @@
 			<span class="w-12 aspect-square rounded-lg bg-gray-400"> </span>
 			<JoyContainer col={true}>
 				<JoyText tag={TextTag.H1} size={TextSize.XS} weight={FontWeight.BOLD}>
-					Collab Learn
+					{$translate('common.platform.name')}
 				</JoyText>
 				<JoyText tag={TextTag.PARA} size={TextSize.XS}>Web-based Platform for Project and Collaboration</JoyText>
 			</JoyContainer>
            
 		</JoyContainer>
         <JoyButton class="w-full" variant={ButtonVariant.PRIMARY} size={ButtonSize.MD}>
-            See Project(s)
+            {$translate('dashboard.label.recentProject')}
         </JoyButton>
 	</JoyContainer>
     <JoyContainer
@@ -128,14 +136,14 @@
 			<span class="w-12 aspect-square rounded-lg bg-gray-400"> </span>
 			<JoyContainer col={true}>
 				<JoyText tag={TextTag.H1} size={TextSize.XS} weight={FontWeight.BOLD}>
-					Collab Learn
+					{$translate('common.platform.name')}
 				</JoyText>
 				<JoyText tag={TextTag.PARA} size={TextSize.XS}>Web-based Platform for Project and Collaboration</JoyText>
 			</JoyContainer>
            
 		</JoyContainer>
         <JoyButton class="w-full" variant={ButtonVariant.PRIMARY} size={ButtonSize.MD}>
-            See Project(s)
+            {$translate('dashboard.label.recentProject')}
         </JoyButton>
 	</JoyContainer>
 </JoyContainer>
