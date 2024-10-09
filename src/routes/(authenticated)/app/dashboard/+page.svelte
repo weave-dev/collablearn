@@ -27,7 +27,7 @@
 </script>
 
 <JoyContainer
-	class="w-full overflow-y-auto"
+	class="w-full h-full overflow-y-auto"
 	col={true}
 	padding={ContainerPadding.SM}
 	gap={ContainerGap.Y_LG}
@@ -128,26 +128,5 @@
 			{$translate('dashboard.label.recentProject')}
 		</JoyButton>
 	</JoyContainer>
-	<JoyContainer
-		class="w-full"
-		col={true}
-		border={Border.XXS}
-		rounded={BorderRounded.XL}
-		padding={ContainerPadding.MD}
-	>
-		<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.SM}
-			>Recent Project(s)</JoyText
-		>
-		<JoyContainer>
-			<span class="w-12 aspect-square rounded-lg bg-gray-400"> </span>
-			<JoyContainer col={true}>
-				<JoyText tag={TextTag.H1} size={TextSize.XS} weight={FontWeight.BOLD}>
-					{$translate('common.platform.name')}
-				</JoyText>
-			</JoyContainer>
-			<JoyButton class="w-full" variant={ButtonVariant.PRIMARY} size={ButtonSize.MD}>
-				{$translate('dashboard.label.recentProject')}
-			</JoyButton>
-		</JoyContainer>
-	</JoyContainer>
+	
 </JoyContainer>
