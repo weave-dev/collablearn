@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ButtonSize } from './../../../../lib/components/Base/Button/types.ts';
+	import { ButtonSize } from '$lib/components/Base/Button/types';
 	import {
 		FontWeight,
 		TextColor,
