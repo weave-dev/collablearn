@@ -4,12 +4,12 @@ import { Guild } from '../types'
 
 export const GUILD_ROUTE: Route = {
 	path: Guild.INDEX,
-	icon: 'people',
+	icon: 'sparks-solid',
 	isShown: true,
 	label: 'Guild',
 }
 
-export const attendanceRoutes = writable<Route[]>([
+export const guildRoutes = writable<Route[]>([
 	GUILD_ROUTE,
 	// {
 	// 	path: .SCHEDULES,

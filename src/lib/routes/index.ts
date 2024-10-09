@@ -1,14 +1,13 @@
 import type { UnplugIconName } from '$lib/components/Base/Icon/Unplug'
-import type { IconName } from '$lib/components/Base/Icon/types'
 import { writable } from 'svelte/store'
-import { Home, type GuildRouteVlues, type HomeRouteValeus } from './types'
+import { Home, type GuildRouteValues, type HomeRouteValues } from './types'
 import { GUILD_ROUTE } from './guild'
 
 export const activeRoute = writable<Route>()
 
 export interface Route {
-	path: HomeRouteValeus | GuildRouteVlues
-	icon: IconName | UnplugIconName
+	path: HomeRouteValues | GuildRouteValues
+	icon: UnplugIconName
 	class?: string
 	isActive?: boolean
 	isShown?: boolean
