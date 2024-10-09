@@ -51,7 +51,6 @@
 			<JoyContainer col gap={ContainerGap.NONE} class="grow truncate">
 				<JoyText weight={FontWeight.BOLD} class="truncate max-w-full w-full">
 					{$user.username}
-					Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum, placeat.
 				</JoyText>
 				<JoyText>
 					{$translate('common.label.lrn')}{$user.lrn || '---'}
