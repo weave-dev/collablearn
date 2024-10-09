@@ -5,7 +5,7 @@
 		TextColor,
 		TextSize,
 		TextTag,
-	} from '$lib/components/Base/Text/types.ts'
+	} from '$lib/components/Base/Text/types'
 	import JoyContainer from '$lib/components/Base/Container/JoyContainer.svelte'
 	import JoyText from '$lib/components/Base/Text/JoyText.svelte'
 	import {
