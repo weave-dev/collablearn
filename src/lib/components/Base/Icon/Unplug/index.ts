@@ -1,4 +1,6 @@
+import IcBaselineBook from '~icons/ic/baseline-book'
 import IcBaselineDashboard from '~icons/ic/baseline-dashboard'
+import IcBaselineFolderShared from '~icons/ic/baseline-folder-shared'
 import IconoirCrownCircle from '~icons/iconoir/crown-circle'
 import IconoirHome from '~icons/iconoir/home'
 import IconoirSettings from '~icons/iconoir/settings'
@@ -40,7 +42,9 @@ export type UnplugIconName = keyof typeof icons
 export const icons = {
 	alarm: IonAlarm,
 	'arrow-right': IconoirArrowRight,
+	'baseline-book': IcBaselineBook,
 	'baseline-dashboard': IcBaselineDashboard,
+	'baseline-folder-shared': IcBaselineFolderShared,
 	'bell-bold': SolarBellBold,
 	'check-circle': IconoirCheckCircle,
 	'check-circle-solid': IconoirCheckCircleSolid,
