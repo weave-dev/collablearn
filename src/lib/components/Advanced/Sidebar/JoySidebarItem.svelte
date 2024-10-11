@@ -13,7 +13,7 @@
 
 	$: itemClass = `w-full gap-4
 		transition-colors flex items-center ${!$$slots['label'] && 'justify-center'}
-		overflow-hidden group ${active && 'bg-accent/25'} ${clazz}`
+		overflow-hidden group ${active && 'bg-accent/25 text-primary'} ${clazz}`
 </script>
 
 {#if type === 'a'}
