@@ -1,15 +1,20 @@
 {
 	"label": {
 		"aboutUs": "About Us",
+		"createAccount": "Create Account",
+		"editProfile": "Edit Profile",
 		"faqs": "FAQ's",
+		"giveFeedback": "Give Feedback",
 		"logIn": "Log in to your account",
 		"logInAsAdmin": "Hello Admin 👋",
 		"lrn": "LRN:",
+		"notifications": "Notifications",
+		"privacyPolicy": "Privacy Policy",
 		"signIn": "Sign In",
 		"signOut": "Sign Out",
-		"createAccount": "Create Account",
 		"signInAsAdministrator": "Sign in as Administrator",
-		"signInAsStudent": "Sign in as Student"
+		"signInAsStudent": "Sign in as Student",
+		"termsOfService": "Terms Of Service"
 	},
 	"platform": {
 		"name": "Collab Learn",

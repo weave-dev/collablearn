@@ -45,6 +45,7 @@
 	"dependencies": {
 		"@dicebear/collection": "^9.2.2",
 		"@dicebear/core": "^9.2.2",
+		"@floating-ui/dom": "^1.6.11",
 		"luxon": "^3.5.0",
 		"pocketbase": "^0.21.5",
 		"radash": "^12.1.0",

@@ -1,6 +1,10 @@
 import IcBaselineBook from '~icons/ic/baseline-book'
+import IcBaselineChatBubbleOutline from '~icons/ic/baseline-chat-bubble-outline'
 import IcBaselineDashboard from '~icons/ic/baseline-dashboard'
 import IcBaselineFolderShared from '~icons/ic/baseline-folder-shared'
+import IcBaselinePowerSettingsNew from '~icons/ic/baseline-power-settings-new'
+import IcBaselineRemoveRedEye from '~icons/ic/baseline-remove-red-eye'
+import IcBaselineSettings from '~icons/ic/baseline-settings'
 import IconoirCrownCircle from '~icons/iconoir/crown-circle'
 import IconoirHome from '~icons/iconoir/home'
 import IconoirSettings from '~icons/iconoir/settings'
@@ -43,8 +47,12 @@ export const icons = {
 	alarm: IonAlarm,
 	'arrow-right': IconoirArrowRight,
 	'baseline-book': IcBaselineBook,
+	'baseline-chat-bubble-outline': IcBaselineChatBubbleOutline,
 	'baseline-dashboard': IcBaselineDashboard,
 	'baseline-folder-shared': IcBaselineFolderShared,
+	'baseline-power-settings-new': IcBaselinePowerSettingsNew,
+	'baseline-remove-red-eye': IcBaselineRemoveRedEye,
+	'baseline-settings': IcBaselineSettings,
 	'bell-bold': SolarBellBold,
 	'check-circle': IconoirCheckCircle,
 	'check-circle-solid': IconoirCheckCircleSolid,

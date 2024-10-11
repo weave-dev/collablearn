@@ -1,3 +1,4 @@
+export type TextColorValues = (typeof TextColor)[keyof typeof TextColor]
 export const TextColor = {
 	ACCENT: 'text-accent',
 	BASE_100: 'text-base-100',
@@ -6,6 +7,7 @@ export const TextColor = {
 	ERROR: 'text-error',
 	GRAY_800: 'text-gray-800',
 	INFO: 'text-info',
+	INHERIT: 'text-inherit',
 	NEUTRAL: 'text-neutral',
 	NEUTRAL_CONTENT: 'text-neutral-content',
 	PRIMARY: 'text-primary',
@@ -16,6 +18,7 @@ export const TextColor = {
 	WARNING_CONTENT: 'text-warning-content',
 } as const
 
+export type TextTagValues = (typeof TextTag)[keyof typeof TextTag]
 export const TextTag = {
 	H1: 'h1',
 	H2: 'h2',
@@ -25,6 +28,7 @@ export const TextTag = {
 	SPAN: 'span',
 } as const
 
+export type TextSizeValues = (typeof TextSize)[keyof typeof TextSize]
 export const TextSize = {
 	BASE: 'text-base',
 	LG: 'text-lg',
@@ -37,6 +41,7 @@ export const TextSize = {
 	XS: 'text-xs',
 } as const
 
+export type FontWeightValues = (typeof FontWeight)[keyof typeof FontWeight]
 export const FontWeight = {
 	BOLD: 'font-bold',
 	LIGHT: 'font-light',
