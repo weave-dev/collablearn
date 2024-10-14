@@ -21,11 +21,13 @@
 		"tagline": "Learn, Grow, Collaborate. \nElevate Your Knowledge Journey!"
 	},
 	"sidebar": {
+		"admin": "Admin",
 		"menu": "Menu",
 		"myTasks": "My Tasks",
 		"lessonActivities": "Lesson Activities"
 	},
 	"routes": {
+		"accountsManagement": "Accounts Management",
 		"catchUpFridays": "Catch-up Fridays",
 		"guilds": "Guilds",
 		"home": "Home",
