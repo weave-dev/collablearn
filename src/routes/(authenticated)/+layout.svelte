@@ -42,6 +42,9 @@
 		},
 	]
 
+	$: adminRoutes = $routes.filter(
+		(route) => route.group === RouteGroup.ADMIN && route.isShown
+	)
 	$: menuRoutes = $routes.filter(
 		(route) => route.group === RouteGroup.MENU && route.isShown
 	)
@@ -65,11 +68,15 @@
 			routes: lessonActivitiesRoutes,
 			label: $translate('common.sidebar.lessonActivities'),
 		},
+		{
+			routes: adminRoutes,
+			label: $translate('common.sidebar.admin'),
+		},
 	]
 </script>
 
 <JoyContainer class="w-screen h-screen" gap={ContainerGap.NONE}>
-	<JoySidebar let:SidebarItem class="w-[300px] border-r">
+	<JoySidebar let:SidebarItem class="w-[300px] border-r overflow-y-auto">
 		<!-- @TODO: make this a separate component -->
 		<JoyContainer
 			class="w-full"

@@ -8,6 +8,11 @@ export const Home = {
 	INDEX: '/app',
 } as const
 
+export type AccountRouteValues = (typeof Account)[keyof typeof Account]
+export const Account = {
+	INDEX: `${Home.INDEX}/accounts`,
+} as const
+
 export type CatchUpFridayRouteValues = (typeof CatchUpFriday)[keyof typeof CatchUpFriday]
 export const CatchUpFriday = {
 	INDEX: `${Home.INDEX}/catchup-fridays`,
@@ -44,6 +49,7 @@ export const Task = {
 
 export type RouteGroupValues = (typeof RouteGroup)[keyof typeof RouteGroup]
 export const RouteGroup = {
+	ADMIN: 'admin',
 	MENU: 'menu',
 	MY_TASKS: 'myTasks',
 	LESSON_ACTIVITIES: 'lessonActivities',

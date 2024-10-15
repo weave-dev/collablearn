@@ -3,6 +3,7 @@ import { writable } from 'svelte/store'
 import {
 	Home,
 	RouteGroup,
+	type AccountRouteValues,
 	type CatchUpFridayRouteValues,
 	type GuildRouteValues,
 	type HomeRouteValues,
@@ -21,6 +22,7 @@ import { useLearningModuleRoutes } from './learning-modules'
 import { useTaskRoutes } from './tasks'
 import { useCatchUpFridayRoutes } from './catchup-fridays'
 import { useLessonMaterialRoutes } from './lesson-materials'
+import { useAccountRoutes } from './accounts'
 
 const $translate = get(translate)
 await loadTranslations('en', '/')
@@ -31,12 +33,14 @@ const { LEARNING_MODULE_ROUTE } = useLearningModuleRoutes(translate)
 const { TASK_ROUTE } = useTaskRoutes(translate)
 const { CATCH_UP_FRIDAY_ROUTE } = useCatchUpFridayRoutes(translate)
 const { LESSON_MATERIAL_ROUTE } = useLessonMaterialRoutes(translate)
+const { accountRoutes } = useAccountRoutes(translate)
 
 export const activeRoute = writable<Route>()
 
 export interface Route {
 	path:
 		| HomeRouteValues
+		| AccountRouteValues
 		| GuildRouteValues
 		| ProjectRouteValues
 		| LearningModuleRouteValues
@@ -66,4 +70,5 @@ export const routes = writable<Route[]>([
 	LEARNING_MODULE_ROUTE,
 	CATCH_UP_FRIDAY_ROUTE,
 	LESSON_MATERIAL_ROUTE,
+	...get(accountRoutes),
 ])

@@ -5,25 +5,29 @@
 @tailwind utilities;
 
 /* SCROLLBAR STYLING */
-::-webkit-scrollbar {
-	@apply w-2 h-2;
+:root {
+	--scrollbar-width: thin;
+	--scrollbar-width-legacy: 10px;
 }
 
-::-webkit-scrollbar-track {
-	@apply bg-secondary/80 rounded;
+/* Modern browsers with `scrollbar-*` support */
+@supports (scrollbar-width: auto) {
+	* {
+		scrollbar-width: var(--scrollbar-width);
+	}
 }
 
-::-webkit-scrollbar-thumb {
-	@apply bg-primary rounded;
-}
-
-* {
-	scrollbar-color: initial;
-}
-
-@supports not selector(::-webkit-scrollbar) {
-	html {
-		scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+/* Legacy browsers with `::-webkit-scrollbar-*` support */
+@supports selector(::-webkit-scrollbar) {
+	::-webkit-scrollbar-thumb {
+		background: var(--scrollbar-color-thumb);
+	}
+	::-webkit-scrollbar-track {
+		background: var(--scrollbar-color-track);
+	}
+	::-webkit-scrollbar {
+		max-width: var(--scrollbar-width-legacy);
+		max-height: var(--scrollbar-width-legacy);
 	}
 }
 /* SCROLLBAR STYLING */
