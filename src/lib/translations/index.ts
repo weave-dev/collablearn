@@ -26,6 +26,11 @@ const config = {
 			loader: async () => (await import('./en/dashboard.json')).default,
 		},
 
+		{
+			locale: 'en',
+			key: 'accounts',
+			loader: async () => (await import('./en/accounts.json')).default,
+		},
 
 		// Routes specific translations
 		// {

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { afterNavigate } from '$app/navigation'
 	import { page } from '$app/stores'
 	import JoyAvatar from '$lib/components/Advanced/Avatar/JoyAvatar.svelte'
 	import JoyContextMenu from '$lib/components/Advanced/ContextMenu/JoyContextMenu.svelte'
@@ -9,6 +10,7 @@
 	import { Size } from '$lib/components/Base/Icon/types'
 	import JoyText from '$lib/components/Base/Text/JoyText.svelte'
 	import { FontWeight } from '$lib/components/Base/Text/types'
+	import { App } from '$lib/modules/app'
 	import { authService, user } from '$lib/modules/authentication'
 	import { routes, type Route } from '$lib/routes'
 	import { RouteGroup } from '$lib/routes/types'
@@ -16,6 +18,7 @@
 	import { ContainerGap, ContainerPadding, Justify } from '$lib/types'
 	import { AlignItems } from '$lib/types/AlignItems'
 	const { signOutUser } = authService()
+	const { currentRoute } = App
 
 	// @TODO: move to a separate component together with user
 	// context menu
@@ -73,6 +76,10 @@
 			label: $translate('common.sidebar.admin'),
 		},
 	]
+
+	afterNavigate(() => {
+		$currentRoute = $routes.find((route) => route.path === $page.url.pathname)
+	})
 </script>
 
 <JoyContainer class="w-screen h-screen" gap={ContainerGap.NONE}>
@@ -121,7 +128,10 @@
 			</JoyContainer>
 		{/each}
 	</JoySidebar>
-	<slot />
+
+	<JoyContainer col padding={ContainerPadding.MD} class="w-full">
+		<slot />
+	</JoyContainer>
 
 	<JoySidebar let:SidebarItem class="w-[300px] border-l px-8 py-6">
 		<!-- @TODO refactor to a separate component -->
