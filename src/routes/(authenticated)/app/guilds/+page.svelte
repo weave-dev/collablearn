@@ -23,11 +23,12 @@
 	import { guilds, guildService } from '$lib/modules/guilds'
 	import { App } from '$lib/modules/app'
 	import { ToastVariant } from '$lib/components/Advanced/Toast/types'
-	import { type newGuildDTO } from '$lib/modules/guilds/types'
+	import { type NewGuildDTO } from '$lib/modules/guilds/types'
 	import { InputVariant } from '$lib/components/Base/Input/types'
 	import JoyTextArea from '$lib/components/Base/Input/JoyTextArea.svelte'
 	import type { PageData } from './$types'
 	import { superForm } from 'sveltekit-superforms'
+	import JoyGridContainer from '$lib/modules/guilds/components/Grid/JoyGridContainer.svelte'
 	const { loadGuilds } = guildService()
 	const { toast } = App
 
@@ -56,10 +57,6 @@
 		isOpenModal = !isOpenModal
 	}
 	
-
-
-	console.log($guilds)
-
 
 
 	const {form, enhance, errors, constraints } = superForm(data.guildValidSchema, {
@@ -99,63 +96,66 @@
 		</JoyContainer>
 	</JoyContainer>
 
-	<div class="grid grid-cols-3 grid-flow-row gap-2 w-full">
+	<!-- <div class="grid grid-cols-3 grid-flow-row gap-2 w-full"> -->
+	 <JoyGridContainer gridNumber="3" >
 		{#each $guilds as guild (guild.id)}
-			<JoyContainer
-				border={Border.XXS}
-				borderColor={BorderColor.NEUTRAL}
-				padding={ContainerPadding.XS}
-				rounded={BorderRounded.LG}
-				alignItems={AlignItems.CENTER}
-				class="w-full hover:scale-105 duration-700 hover:shadow-lg hover:shadow-gray-300"
-			>
-				<div class="bg-gray-500 aspect-square rounded-lg h-16"></div>
-				<JoyContainer col={true} gap={ContainerGap.XXS}>
-					<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.LG}
-						>{ guild.name }</JoyText
-					>
-					<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.NEUTRAL}
-						>{ guild.expand?.owner_id.username }</JoyText
-					>
-					<JoyText tag={TextTag.PARA} size={TextSize.SM}>69 members</JoyText>
-				</JoyContainer>
+		<JoyContainer
+			border={Border.XXS}
+			borderColor={BorderColor.NEUTRAL}
+			padding={ContainerPadding.XS}
+			rounded={BorderRounded.LG}
+			alignItems={AlignItems.CENTER}
+			class="w-full hover:scale-105 duration-700 hover:shadow-lg hover:shadow-gray-300"
+		>
+			<div class="bg-gray-500 aspect-square rounded-lg h-16"></div>
+			<JoyContainer col={true} gap={ContainerGap.XXS}>
+				<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.LG}
+					>{ guild.name }</JoyText
+				>
+				<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.NEUTRAL}
+					>{ guild.expand?.owner_id.username }</JoyText
+				>
+				<JoyText tag={TextTag.PARA} size={TextSize.SM}>69 members</JoyText>
 			</JoyContainer>
-		{/each} 
+		</JoyContainer>
+	{/each} 
 
-
-
-		<JoyModal isShown={isOpenModal}>
-			<form  method="POST" use:enhance class="w-full">
-				<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.LG} color={TextColor.PRIMARY}>Create Guild</JoyText>
-				<JoyContainer col={true} class="w-full">
+	 </JoyGridContainer>
 	
-					<JoyInput bind:value={$form.name} name="name" placeholder="Guild Name"  class="min-w-full"/>
-					<span
-						class="first-letter:capitalize text-error text-sm select-none"
-						class:text-transparent={!$errors.name}
-					>
-						{$errors.name}
-					</span>
-					<JoyTextArea bind:value={$form.description} name="description" placeholder="descriptions" class="w-full h-32">
-
-					</JoyTextArea>
-					<span
-						class="first-letter:capitalize text-error text-sm select-none"
-						class:text-transparent={!$errors.description}
-					>
-						{$errors.description}
-					</span>
-
-				
-				</JoyContainer>
 
 
-				<JoyButton type="submit" variant={ButtonVariant.PRIMARY} size={ButtonSize.MD}>Submit</JoyButton>
-				<JoyButton on:click={openModal} variant={ButtonVariant.SECONDARY} size={ButtonSize.MD}>Close</JoyButton>
-			</form>
+	<!-- </div> -->
+	<JoyModal isShown={isOpenModal}>
+		<form  method="POST" use:enhance class="w-full">
+			<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.LG} color={TextColor.PRIMARY}>Create Guild</JoyText>
+			<JoyContainer col={true} class="w-full">
+
+				<JoyInput bind:value={$form.name} name="name" placeholder="Guild Name"  class="min-w-full"/>
+				<span
+					class="first-letter:capitalize text-error text-sm select-none"
+					class:text-transparent={!$errors.name}
+				>
+					{$errors.name}
+				</span>
+				<JoyTextArea bind:value={$form.description} name="description" placeholder="descriptions" class="w-full h-32">
+
+				</JoyTextArea>
+				<span
+					class="first-letter:capitalize text-error text-sm select-none"
+					class:text-transparent={!$errors.description}
+				>
+					{$errors.description}
+				</span>
+
 			
-		</JoyModal>
-	</div>
+			</JoyContainer>
+
+
+			<JoyButton type="submit" variant={ButtonVariant.PRIMARY} size={ButtonSize.MD}>Submit</JoyButton>
+			<JoyButton on:click={openModal} variant={ButtonVariant.SECONDARY} size={ButtonSize.MD}>Close</JoyButton>
+		</form>
+		
+	</JoyModal>
 </JoyContainer>
 
 

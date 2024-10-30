@@ -1,29 +1,32 @@
 import type { RecordModel } from "pocketbase";
-import type { User } from "../authentication";
+import type { User } from "$lib/modules/authentication";
 
 
 
 export interface Guild extends RecordModel {
     name : string,
     descriptions : string,
-    owner_id : User,
+    owner_id : string,
     status : string,
+    expand : {
+        owner_id  : User
+    }
 }
 
 
 
-export enum GuildStatusDTO  {
-    APPROVED = 'approved',
-    DEACTIVATE = 'deactivate',
-    REJECT = 'reject',
-    CLOSED = 'closed',
-    PENDING = 'pending'
-}
+export const GuildStatusDTO =  {
+    APPROVED : 'approved',
+    DEACTIVATE :'deactivate',
+    REJECT : 'reject',
+    CLOSED : 'closed',
+    PENDING : 'pending'
+} as const
 
 
-export interface newGuildDTO {
+export interface NewGuildDTO {
     name : string,
     descriptions : string,
     owner_id : User,
-    status : GuildStatusDTO
+    status : typeof GuildStatusDTO
 }

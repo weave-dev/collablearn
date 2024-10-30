@@ -1,7 +1,7 @@
 import { loadTranslations } from "$lib/translations"
 import {object, string} from 'yup'
 
-export const guildFormSchema = async ( locale = 'en', pathname = '/') => {
+export const useGuildFormSchema = async ( locale = 'en', pathname = '/') => {
 
     await loadTranslations(locale, pathname);
 

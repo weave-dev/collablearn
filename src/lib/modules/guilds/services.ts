@@ -1,7 +1,7 @@
 import { tryit } from 'radash'
-import { pb } from '../authentication'
-import { createService } from '../base/services'
-import { GuildStatusDTO, type Guild, type newGuildDTO } from './types'
+import { pb } from '$lib/modules/authentication'
+import { createService } from '$lib/modules/base/services'
+import { GuildStatusDTO, type Guild, type NewGuildDTO } from './types'
 import { guilds } from './stores'
 
 const collection = 'guilds'
@@ -15,7 +15,7 @@ const listGuilds = (page = 1, limit = 30) => {
 }
 
 const createGuild = async (name: string, description: string) => {
-	const data: newGuildDTO = {
+	const data: NewGuildDTO = {
 		name: name,
 		descriptions: description,
 		owner_id: pb.authStore.model?.id,
