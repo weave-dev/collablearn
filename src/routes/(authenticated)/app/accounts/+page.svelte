@@ -1,12 +1,21 @@
 <script lang="ts">
-	import { page } from '$app/stores'
+	import JoyDataTable from '$lib/components/Advanced/DataTable/JoyDataTable.svelte'
 	import { ToastVariant } from '$lib/components/Advanced/Toast/types'
 	import JoyContainer from '$lib/components/Base/Container/JoyContainer.svelte'
-	import { accountsService } from '$lib/modules/accounts'
+	import JoyText from '$lib/components/Base/Text/JoyText.svelte'
+	import { FontWeight, TextColor, TextSize } from '$lib/components/Base/Text/types'
+	import { accountsService, accounts } from '$lib/modules/accounts'
 	import { App } from '$lib/modules/app'
-	import { onMount } from 'svelte'
+	import type { User } from '$lib/modules/authentication'
+	import type { ColumnDef } from '@tanstack/svelte-table'
+	import { onMount, tick } from 'svelte'
+	import JoyButton from '$lib/components/Base/Button/JoyButton.svelte'
+	import { translate } from '$lib/translations'
+	import { ButtonVariant } from '$lib/components/Base/Button'
+	import { pushState } from '$app/navigation'
+	import AccountCreateDrawer from '$lib/modules/accounts/components/AccountCreateDrawer.svelte'
 	const { listUserAccounts } = accountsService()
-	const { toast } = App
+	const { toast, currentRoute } = App
 
 	onMount(async () => {
 		const err = await listUserAccounts()
@@ -15,8 +24,62 @@
 			$toast.fire({ message: err.message, variant: ToastVariant.ERROR })
 		}
 	})
+
+	const columns: ColumnDef<User>[] = [
+		{
+			accessorKey: 'lrn',
+			header: 'LRN',
+			id: 'user.lrn',
+			cell: (info) => info.getValue(),
+		},
+
+		{
+			accessorKey: 'username',
+			header: 'Username',
+			id: 'user.username',
+			cell: (info) => info.getValue(),
+		},
+
+		{
+			accessorKey: 'email',
+			header: 'Email',
+			id: 'user.email',
+			cell: (info) => info.getValue(),
+		},
+
+		{
+			id: 'actions',
+			cell: (props) => props.row,
+		},
+	]
+
+	const addAccount = async () => {
+		await tick()
+
+		pushState('', {
+			accountsCreateDrawer: {
+				isOpen: true,
+			},
+		})
+	}
+
+	const manageAccount = (event: CustomEvent<User>) => {
+		const user = event.detail
+		console.log({ schedule: user })
+	}
 </script>
 
-<JoyContainer class="bg-primary/50 w-full">
-	<h1>{$page.url.pathname}</h1>
+<AccountCreateDrawer />
+
+<JoyContainer class="w-full" col>
+	<JoyText size={TextSize.XL_3} weight={FontWeight.BOLD} color={TextColor.PRIMARY}>
+		{$currentRoute?.label}
+	</JoyText>
+
+	<JoyButton variant={ButtonVariant.PRIMARY} on:click={addAccount}>
+		{$translate('accounts.label.addNewAccount')}
+	</JoyButton>
+
+	<JoyDataTable {columns} data={accounts} on:datatable-row-selected={manageAccount}
+	></JoyDataTable>
 </JoyContainer>
