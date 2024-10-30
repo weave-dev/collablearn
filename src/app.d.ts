@@ -5,9 +5,13 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		// interface PageState {}
+		interface PageState {
+			accountsCreateDrawer?: {
+				isOpen: boolean
+			}
+		}
 		// interface Platform {}
 	}
 }
 
-export {};
+export {}
