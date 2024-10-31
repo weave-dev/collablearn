@@ -48,6 +48,20 @@
 		},
 
 		{
+			accessorKey: 'expand.account_profiles_via_user_id.0.details.firstName',
+			header: 'First Name',
+			id: 'user.account_profile.firstName',
+			cell: (info) => info.getValue(),
+		},
+
+		{
+			accessorKey: 'expand.account_profiles_via_user_id.0.details.lastName',
+			header: 'Last Name',
+			id: 'user.account_profile.lastName',
+			cell: (info) => info.getValue(),
+		},
+
+		{
 			id: 'actions',
 			cell: (props) => props.row,
 		},

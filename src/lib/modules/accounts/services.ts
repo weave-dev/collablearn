@@ -9,6 +9,7 @@ const service = createService<User>(collection)
 const listUserAccounts = async (page = 1, limit = 30) => {
 	const [err, result] = await tryit(service.list)(page, limit, {
 		sort: '-created',
+		expand: 'account_profiles_via_user_id',
 	})
 
 	if (err) return err
