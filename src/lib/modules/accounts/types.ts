@@ -19,3 +19,9 @@ export interface AccountProfileDetails {
 	address: string
 	bio: string
 }
+
+export interface AccountDTO extends AccountProfileDetails {
+	[key: string]: string
+	lrn: string
+	email: string
+}
