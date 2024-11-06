@@ -44,5 +44,7 @@ export const useAuthFormSchema = async (locale = 'en', pathname = '/') => {
 		newUserSchema,
 		loginUserSchema,
 		loginAdminUserSchema,
+		usePassword,
+		usePasswordConfirmation,
 	}
 }

@@ -17,13 +17,17 @@
 	const { listUserAccounts } = accountsService()
 	const { toast, currentRoute } = App
 
-	onMount(async () => {
+	export let data
+
+	const initialLoad = async () => {
 		const err = await listUserAccounts()
 
 		if (err) {
 			$toast.fire({ message: err.message, variant: ToastVariant.ERROR })
 		}
-	})
+	}
+
+	onMount(initialLoad)
 
 	const columns: ColumnDef<User>[] = [
 		{
@@ -48,10 +52,33 @@
 		},
 
 		{
+			accessorKey: 'expand.account_profiles_via_user_id.0.details.firstName',
+			header: 'First Name',
+			id: 'user.account_profile.firstName',
+			cell: (info) => info.getValue() || '',
+		},
+
+		{
+			accessorKey: 'expand.account_profiles_via_user_id.0.details.lastName',
+			header: 'Last Name',
+			id: 'user.account_profile.lastName',
+			cell: (info) => info.getValue() || '',
+		},
+
+		{
 			id: 'actions',
 			cell: (props) => props.row,
 		},
 	]
+
+	const accountCreated = () => {
+		$toast.fire({
+			message: 'New account has been created',
+			variant: ToastVariant.SUCCESS,
+		})
+
+		tick().then(initialLoad)
+	}
 
 	const addAccount = async () => {
 		await tick()
@@ -69,7 +96,11 @@
 	}
 </script>
 
-<AccountCreateDrawer />
+<AccountCreateDrawer
+	validSchema={data.newAccountValidSchema}
+	validator={data.newAccountValidator}
+	{accountCreated}
+/>
 
 <JoyContainer class="w-full" col>
 	<JoyText size={TextSize.XL_3} weight={FontWeight.BOLD} color={TextColor.PRIMARY}>

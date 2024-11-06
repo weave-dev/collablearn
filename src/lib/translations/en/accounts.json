@@ -1,6 +1,28 @@
 {
 	"label": {
+		"accounts": "Accounts",
 		"addNewAccount": "New Account",
+		"createNewAccount": "Create New Account",
 		"manageAccount": "Manage Account"
+	},
+	"fields": {
+		"lrn": "LRN",
+		"email": "Email",
+		"firstName": "First Name",
+		"middleName": "Middle Name",
+		"lastName": "Last Name",
+		"address": "Address",
+		"bio": "Bio",
+		"password": "Password",
+		"passwordConfirm": "Confirm Password"
+	},
+	"validation": {
+		"lrnRequired": "LRN is required",
+		"emailRequired": "Email is required",
+		"firstNameRequired": "First name is required",
+		"middleNameRequired": "Middle name is required",
+		"lastNameRequired": "Last name is required",
+		"addressRequired": "Address is required",
+		"bioRequired": "Bio is required"
 	}
 }
