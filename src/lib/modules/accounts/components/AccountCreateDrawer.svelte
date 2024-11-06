@@ -14,9 +14,16 @@
 	import { ContainerGap, ContainerPadding, Justify } from '$lib/types'
 	import { AlignItems } from '$lib/types/AlignItems'
 	import { writable } from 'svelte/store'
-	import { superForm, type SuperValidated } from 'sveltekit-superforms'
+	import SuperDebug, { superForm, type SuperValidated } from 'sveltekit-superforms'
 	import type { ValidationAdapter } from 'sveltekit-superforms/adapters'
-	import type { AccountDTO } from '../types'
+	import type { Account, AccountDTO } from '../types'
+	import { App } from '$lib/modules/app'
+	import { ToastVariant } from '$lib/components/Advanced/Toast/types'
+	import { accountsService } from '../services'
+
+	const { toast } = App
+
+	const { createUserAccount } = accountsService()
 
 	let isLoading = false
 	let isShown = writable(false)
@@ -25,6 +32,7 @@
 
 	export let validSchema: SuperValidated<AccountDTO, unknown, AccountDTO>
 	export let validator: ValidationAdapter<AccountDTO, AccountDTO>
+	export let accountCreated: () => void
 
 	const { form, enhance, errors, constraints } = superForm(validSchema, {
 		dataType: 'json',
@@ -35,17 +43,26 @@
 			if (!form.valid) return
 
 			isLoading = true
-			// @TODO continue account creation
-			// const [err] = await signInUser(form.data.username, form.data.password)
+			form.data.lastName
+			const [err, result] = await createUserAccount({
+				...form.data,
+				emailVisibility: 'true',
+			})
 			isLoading = false
 
-			// if (err) {
-			// 	return toast.fire({ message: err.message, variant: ToastVariant.ERROR })
-			// }
+			if (err) {
+				return $toast.fire({ message: err.message, variant: ToastVariant.ERROR })
+			}
+
+			accountCreated()
 		},
 	})
 
 	$: $isShown = Boolean($page.state.accountsCreateDrawer?.isOpen)
+
+	page.subscribe((value) => {
+		console.log(value.state.accountsCreateDrawer?.isOpen)
+	})
 
 	let fields = [
 		{
@@ -57,6 +74,7 @@
 			name: 'email',
 			colSpan: 'col-span-full',
 			control: 'text',
+			type: 'email',
 		},
 		{
 			name: 'firstName',
@@ -72,16 +90,33 @@
 			name: 'lastName',
 			colSpan: 'col-span-full',
 			control: 'text',
+			type: 'text',
 		},
+
 		{
 			name: 'address',
 			colSpan: 'col-span-full',
 			control: 'text',
 		},
+
 		{
 			name: 'bio',
 			colSpan: 'col-span-full',
 			control: 'textarea',
+		},
+
+		{
+			name: 'password',
+			colSpan: 'col-span-full',
+			control: 'text',
+			type: 'password',
+		},
+
+		{
+			name: 'passwordConfirm',
+			colSpan: 'col-span-full',
+			control: 'text',
+			type: 'password',
 		},
 	]
 </script>
@@ -99,22 +134,45 @@
 		justify={Justify.BETWEEN}
 		alignItems={AlignItems.CENTER}
 	>
-		<form action="" class="w-full">
+		<form method="post" class="w-full" use:enhance>
 			<JoyGrid cols={GridCols[6]} gap={ContainerGap.XS} class="w-full">
 				{#each fields as field}
 					{#if field.control == 'text'}
-						<JoyInput bordered class={`${field.colSpan} bg-white`}>
-							<svelte:fragment slot="labeled-l">
-								<JoyText weight={FontWeight.BOLD} size={TextSize.SM}>
-									{$translate(`accounts.fields.${field.name}`)}
-								</JoyText>
-							</svelte:fragment>
-						</JoyInput>
+						<JoyContainer col class={`${field.colSpan}`}>
+							<JoyInput
+								bordered
+								class="w-full bg-white"
+								type={field.type}
+								bind:value={$form[field.name]}
+								attributes={$constraints[field.name]}
+							>
+								<svelte:fragment slot="labeled-l">
+									<JoyText weight={FontWeight.BOLD} size={TextSize.SM}>
+										{$translate(`accounts.fields.${field.name}`)}
+									</JoyText>
+								</svelte:fragment>
+							</JoyInput>
+
+							{#if $errors[field.name]}
+								<span class="first-letter:capitalize text-error text-sm select-none">
+									{$errors[field.name]}
+								</span>
+							{/if}
+						</JoyContainer>
 					{:else if field.control == 'textarea'}
 						<JoyTextArea
 							bordered
-							class={`${field.colSpan} bg-white resize-none h-[200px]`}
-						/>
+							containerClass={field.colSpan}
+							class={`w-full bg-white resize-none h-[200px]`}
+							bind:value={$form[field.name]}
+							attributes={$constraints[field.name]}
+						>
+							<svelte:fragment slot="label-top">
+								<JoyText weight={FontWeight.BOLD} size={TextSize.SM} class="label-text">
+									{$translate(`accounts.fields.${field.name}`)}
+								</JoyText>
+							</svelte:fragment>
+						</JoyTextArea>
 					{/if}
 				{/each}
 
@@ -122,6 +180,7 @@
 					class="col-span-full"
 					size={ButtonSize.MD}
 					variant={ButtonVariant.PRIMARY}
+					type="submit"
 				>
 					{$translate('common.label.submit')}
 				</JoyButton>
