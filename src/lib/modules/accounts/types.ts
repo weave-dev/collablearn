@@ -1,5 +1,5 @@
 import type { RecordModel } from 'pocketbase'
-import { type User } from '$lib/modules/authentication'
+import { type NewUserDTO, type User } from '$lib/modules/authentication'
 
 export interface Account extends User {
 	expand: {
@@ -8,8 +8,9 @@ export interface Account extends User {
 }
 
 export interface AccountProfile extends RecordModel {
-	details: AccountProfileDetails
 	avatar: string
+	details: AccountProfileDetails
+	user_id: string
 }
 
 export interface AccountProfileDetails {
@@ -20,8 +21,8 @@ export interface AccountProfileDetails {
 	bio: string
 }
 
-export interface AccountDTO extends AccountProfileDetails {
-	[key: string]: string
-	lrn: string
+export interface AccountDTO extends AccountProfileDetails, NewUserDTO {
+	[key: string]: string | undefined
 	email: string
+	lrn?: string
 }
