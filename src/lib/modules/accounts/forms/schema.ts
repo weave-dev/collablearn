@@ -1,3 +1,4 @@
+import { useAuthFormSchema } from '$lib/modules/authentication'
 import { translate, loadTranslations } from '$lib/translations'
 import { get } from 'svelte/store'
 import { object, string } from 'yup'
@@ -5,9 +6,13 @@ const $translate = get(translate)
 
 export const useAccountFormSchema = async (locale = 'en', pathname = '/') => {
 	await loadTranslations(locale, pathname)
+	const { usePassword, usePasswordConfirmation } = await useAuthFormSchema(
+		locale,
+		pathname
+	)
 
 	const useLrn = () => ({
-		lrn: string().required($translate('accounts.validation.lrnRequired')),
+		lrn: string(),
 	})
 
 	const useEmail = () => ({
@@ -53,6 +58,8 @@ export const useAccountFormSchema = async (locale = 'en', pathname = '/') => {
 		...useLastName(),
 		...useAddress(),
 		...useBio(),
+		...usePassword(),
+		...usePasswordConfirmation(),
 	})
 
 	return {
