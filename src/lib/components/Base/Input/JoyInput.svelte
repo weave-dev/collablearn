@@ -27,7 +27,8 @@
 			buildClass += ' input-bordered border-2'
 		}
 
-		inputClass = `input focus-within:outline-none focus-within:border-primary focus-within:border-2 transition-colors duration-200
+		inputClass = `input focus-within:outline-none focus-within:border-primary focus-within:border-2 
+			transition-colors duration-200
 			${variant} ${size} ${rounded} ${buildClass} ${clazz}`
 	}
 

@@ -18,10 +18,12 @@
 		let buildClass = ''
 
 		if (bordered) {
-			buildClass += ' input-bordered'
+			buildClass += ' textarea-bordered'
 		}
 
-		textareaClass = `textarea ${variant} ${size} ${rounded} ${buildClass} ${clazz}`
+		textareaClass = `textarea
+			focus-within:outline-none focus-within:border-primary focus-within:border-2 transition-colors duration-200
+			${variant} ${size} ${rounded} ${buildClass} ${clazz}`
 	}
 </script>
 

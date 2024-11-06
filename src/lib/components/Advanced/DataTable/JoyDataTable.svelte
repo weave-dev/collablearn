@@ -14,6 +14,7 @@
 	} from '@tanstack/svelte-table'
 	import { writable, type Writable } from 'svelte/store'
 
+	// eslint-disable-next-line no-undef
 	type T = $$Generic
 
 	export let data: Writable<Array<T>>
@@ -44,9 +45,11 @@
 	const rowClicked = (data: T) => dispatch(JoyDataTableEvent.ROW_SELECTED, data)
 </script>
 
-<div class="relative rounded-lg overflow-x-auto w-full h-full">
-	<table class="w-full text-sm text-left rtl:text-right text-gray-600">
-		<thead class="text-xs text-gray-600 uppercase bg-base-200">
+<div class="relative overflow-x-auto w-full h-full">
+	<table
+		class="rounded-lg border border-base-300 w-full text-sm text-left rtl:text-right text-gray-600"
+	>
+		<thead>
 			{#each $table.getHeaderGroups() as headerGroup}
 				<tr>
 					{#each headerGroup.headers as header}
@@ -55,7 +58,7 @@
 								<button
 									disabled={!header.column.getCanSort()}
 									on:click={header.column.getToggleSortingHandler()}
-									class="uppercase"
+									class="capitalize"
 								>
 									<svelte:component
 										this={flexRender(header.column.columnDef.header, header.getContext())}
@@ -100,3 +103,19 @@
 		</tbody>
 	</table>
 </div>
+
+<style scoped lang="scss">
+	thead {
+		@apply bg-white;
+	}
+
+	thead tr th,
+	tbody tr td {
+		@apply border border-base-300;
+	}
+
+	thead tr th:nth-last-child(2),
+	tbody tr td:nth-last-child(2) {
+		@apply border-r-transparent;
+	}
+</style>
