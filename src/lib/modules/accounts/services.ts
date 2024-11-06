@@ -1,10 +1,12 @@
 import { createService } from '$lib/modules/base/services'
 import type { NewUserDTO, User } from '$lib/modules/authentication'
-import { tryit } from 'radash'
+import { omit, tryit } from 'radash'
 import { accounts } from './stores'
+import type { AccountDTO, AccountProfile, AccountProfileDetails } from './types'
 
 const collection = 'users'
 const service = createService<User>(collection)
+const accountProfilesService = createService<AccountProfile>('account_profiles')
 
 const listUserAccounts = async (page = 1, limit = 30) => {
 	const [err, result] = await tryit(service.list)(page, limit, {
@@ -17,8 +19,25 @@ const listUserAccounts = async (page = 1, limit = 30) => {
 	accounts.set(result.items)
 }
 
-const createUserAccount = (newUser: NewUserDTO) => {
-	return service.create(newUser)
+const createUserAccount = async (newAccount: AccountDTO) => {
+	const [err, result] = await tryit(service.create)(newAccount)
+
+	if (err) return [err, undefined]
+
+	const details = omit(newAccount, [
+		'lrn',
+		'email',
+		'password',
+		'passwordConfirm',
+	]) as unknown as AccountProfileDetails
+
+	const [profileCreateErr, profileCreateResult] = await tryit(
+		accountProfilesService.create
+	)({ user_id: result.id, details })
+
+	if (profileCreateErr) return [profileCreateErr, undefined]
+
+	return [undefined, profileCreateResult]
 }
 
 const updateUserAccount = (id: string, userAccount: Partial<User>) => {
