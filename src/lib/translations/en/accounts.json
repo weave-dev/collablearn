@@ -12,7 +12,9 @@
 		"middleName": "Middle Name",
 		"lastName": "Last Name",
 		"address": "Address",
-		"bio": "Bio"
+		"bio": "Bio",
+		"password": "Password",
+		"passwordConfirm": "Confirm Password"
 	},
 	"validation": {
 		"lrnRequired": "LRN is required",
