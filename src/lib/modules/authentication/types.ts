@@ -18,7 +18,7 @@ export interface AdminUserLoginDTO extends LoginDTO {
 }
 
 export interface UserLoginDTO extends LoginDTO {
-	lrn: string
+	lrn?: string
 }
 
 export interface NewUserDTO extends UserLoginDTO {
