@@ -2,7 +2,7 @@
 	import { BorderRounded } from '$lib/types/Round'
 	import { uid } from 'radash'
 	import { InputSize, InputVariant } from './types'
-	import type { HTMLInputAttributes } from 'svelte/elements'
+	import type { HTMLInputAttributes, HTMLInputTypeAttribute } from 'svelte/elements'
 
 	export let attributes: HTMLInputAttributes | undefined = undefined
 
@@ -15,7 +15,7 @@
 	export let rounded: BorderRounded = BorderRounded.MD
 
 	let clazz = ''
-	export let type: string = 'text'
+	export let type: HTMLInputTypeAttribute = 'text'
 	export let id: string = uid(10)
 	let inputClass = ''
 	export { clazz as class }

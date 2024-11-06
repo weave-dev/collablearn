@@ -34,7 +34,7 @@
 		data-blocked={blocked}
 	>
 		<div
-			class="w-full lg:w-1/2 xl:w-2/5 2xl:w-1/3 overflow-auto"
+			class="w-full lg:w-1/2 xl:w-2/5 2xl:w-2/5 overflow-auto"
 			transition:fly={{ duration: 200, x: 200 }}
 		>
 			<div class="h-full" transition:fade={{ duration: 200 }}>
