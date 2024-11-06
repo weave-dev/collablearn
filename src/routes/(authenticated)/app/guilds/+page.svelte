@@ -28,7 +28,8 @@
 	import JoyTextArea from '$lib/components/Base/Input/JoyTextArea.svelte'
 	import type { PageData } from './$types'
 	import { superForm } from 'sveltekit-superforms'
-	import JoyGridContainer from '$lib/modules/guilds/components/Grid/JoyGridContainer.svelte'
+	import JoyGrid from '$lib/components/Base/Grid/JoyGrid.svelte'
+	import { GridCols } from '$lib/components/Base/Grid'
 	const { loadGuilds } = guildService()
 	const { toast } = App
 
@@ -97,7 +98,7 @@
 	</JoyContainer>
 
 	<!-- <div class="grid grid-cols-3 grid-flow-row gap-2 w-full"> -->
-	 <JoyGridContainer gridNumber="3" >
+	 <JoyGrid cols={GridCols[2]}>
 		{#each $guilds as guild (guild.id)}
 		<JoyContainer
 			border={Border.XXS}
@@ -120,7 +121,7 @@
 		</JoyContainer>
 	{/each} 
 
-	 </JoyGridContainer>
+	 </JoyGrid>
 	
 
 
