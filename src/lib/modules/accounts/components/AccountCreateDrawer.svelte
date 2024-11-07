@@ -14,9 +14,9 @@
 	import { ContainerGap, ContainerPadding, Justify } from '$lib/types'
 	import { AlignItems } from '$lib/types/AlignItems'
 	import { writable } from 'svelte/store'
-	import SuperDebug, { superForm, type SuperValidated } from 'sveltekit-superforms'
+	import { superForm, type SuperValidated } from 'sveltekit-superforms'
 	import type { ValidationAdapter } from 'sveltekit-superforms/adapters'
-	import type { Account, AccountDTO } from '../types'
+	import type { AccountDTO } from '../types'
 	import { App } from '$lib/modules/app'
 	import { ToastVariant } from '$lib/components/Advanced/Toast/types'
 	import { accountsService } from '../services'
@@ -44,7 +44,7 @@
 
 			isLoading = true
 			form.data.lastName
-			const [err, result] = await createUserAccount({
+			const [err] = await createUserAccount({
 				...form.data,
 				emailVisibility: 'true',
 			})
@@ -59,10 +59,6 @@
 	})
 
 	$: $isShown = Boolean($page.state.accountsCreateDrawer?.isOpen)
-
-	page.subscribe((value) => {
-		console.log(value.state.accountsCreateDrawer?.isOpen)
-	})
 
 	let fields = [
 		{
