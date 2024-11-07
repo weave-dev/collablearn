@@ -12,6 +12,9 @@
 	import { FontWeight } from '$lib/components/Base/Text/types'
 	import { App } from '$lib/modules/app'
 	import { authService, user } from '$lib/modules/authentication'
+	import { currentRoles } from '$lib/modules/user-roles'
+	import { userIs } from '$lib/modules/user-roles/composables'
+	import { Roles } from '$lib/modules/user-roles/types'
 	import { routes, type Route } from '$lib/routes'
 	import { RouteGroup } from '$lib/routes/types'
 	import { translate } from '$lib/translations'
@@ -71,11 +74,14 @@
 			routes: lessonActivitiesRoutes,
 			label: $translate('common.sidebar.lessonActivities'),
 		},
-		{
-			routes: adminRoutes,
-			label: $translate('common.sidebar.admin'),
-		},
-	]
+
+		userIs(Roles.ADMIN)
+			? {
+					routes: adminRoutes,
+					label: $translate('common.sidebar.admin'),
+				}
+			: null,
+	].filter(Boolean)
 
 	afterNavigate(() => {
 		$currentRoute = $routes.find((route) => route.path === $page.url.pathname)

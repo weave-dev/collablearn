@@ -14,10 +14,15 @@
 	import { ButtonVariant } from '$lib/components/Base/Button'
 	import { pushState } from '$app/navigation'
 	import AccountCreateDrawer from '$lib/modules/accounts/components/AccountCreateDrawer.svelte'
+	import AccountEditDrawer from '$lib/modules/accounts/components/AccountEditDrawer.svelte'
+	import type { Account } from '$lib/modules/accounts/types.js'
+	import { writable } from 'svelte/store'
 	const { listUserAccounts } = accountsService()
 	const { toast, currentRoute } = App
 
 	export let data
+
+	const userAccount = writable<Account>()
 
 	const initialLoad = async () => {
 		const err = await listUserAccounts()
@@ -80,6 +85,15 @@
 		tick().then(initialLoad)
 	}
 
+	const accountUpdated = () => {
+		$toast.fire({
+			message: 'Account has been updated',
+			variant: ToastVariant.SUCCESS,
+		})
+
+		tick().then(initialLoad)
+	}
+
 	const addAccount = async () => {
 		await tick()
 
@@ -90,9 +104,21 @@
 		})
 	}
 
+	const viewAccount = async (account: User) => {
+		await tick()
+		$userAccount = account as Account
+
+		pushState('', {
+			accountsEditDrawer: {
+				isOpen: true,
+			},
+		})
+	}
+
 	const manageAccount = (event: CustomEvent<User>) => {
 		const user = event.detail
-		console.log({ schedule: user })
+
+		viewAccount(user)
 	}
 </script>
 
@@ -100,6 +126,13 @@
 	validSchema={data.newAccountValidSchema}
 	validator={data.newAccountValidator}
 	{accountCreated}
+/>
+
+<AccountEditDrawer
+	{userAccount}
+	validSchema={data.updateAccountValidSchema}
+	validator={data.updateAccountValidator}
+	{accountUpdated}
 />
 
 <JoyContainer class="w-full" col>

@@ -3,6 +3,7 @@
 		"accounts": "Accounts",
 		"addNewAccount": "New Account",
 		"createNewAccount": "Create New Account",
+		"editAccount": "Edit Account",
 		"manageAccount": "Manage Account"
 	},
 	"fields": {

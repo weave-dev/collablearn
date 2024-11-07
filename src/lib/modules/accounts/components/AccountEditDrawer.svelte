@@ -13,26 +13,31 @@
 	import { translate } from '$lib/translations'
 	import { ContainerGap, ContainerPadding, Justify } from '$lib/types'
 	import { AlignItems } from '$lib/types/AlignItems'
-	import { writable } from 'svelte/store'
+	import { writable, type Writable } from 'svelte/store'
 	import { superForm, type SuperValidated } from 'sveltekit-superforms'
 	import type { ValidationAdapter } from 'sveltekit-superforms/adapters'
-	import type { AccountDTO } from '../types'
+	import type { Account, AccountDTO } from '../types'
 	import { App } from '$lib/modules/app'
 	import { ToastVariant } from '$lib/components/Advanced/Toast/types'
 	import { accountsService } from '../services'
 
 	const { toast } = App
 
-	const { createUserAccount } = accountsService()
+	const { getUserAccount, updateUserAccount } = accountsService()
 
 	let isLoading = false
 	let isShown = writable(false)
 	let moduleLabel = $translate('accounts.label.accounts')
-	let modeLabel = $translate('accounts.label.createNewAccount')
+	let modeLabel = $translate('accounts.label.editAccount')
 
-	export let validSchema: SuperValidated<AccountDTO, unknown, AccountDTO>
-	export let validator: ValidationAdapter<AccountDTO, AccountDTO>
-	export let accountCreated: () => void
+	export let validSchema: SuperValidated<
+		Partial<AccountDTO>,
+		unknown,
+		Partial<AccountDTO>
+	>
+	export let validator: ValidationAdapter<Partial<AccountDTO>, Partial<AccountDTO>>
+	export let userAccount: Writable<Account | undefined>
+	export let accountUpdated: () => void
 
 	const { form, enhance, errors, constraints } = superForm(validSchema, {
 		dataType: 'json',
@@ -40,25 +45,46 @@
 		resetForm: false,
 		validators: validator,
 		onUpdate: async ({ form }) => {
-			if (!form.valid) return
+			if (!form.valid || !$userAccount) return
 
 			isLoading = true
-			form.data.lastName
-			const [err] = await createUserAccount({
+			const [profile] = $userAccount.expand.account_profiles_via_user_id
+
+			// @NOTE: Error when updating email fixed by adding manage access rule in pocketbase db
+			const [err] = await updateUserAccount($userAccount?.id, profile.id, {
 				...form.data,
-				emailVisibility: 'true',
 			})
+
 			isLoading = false
 
 			if (err) {
 				return $toast.fire({ message: err.message, variant: ToastVariant.ERROR })
 			}
 
-			accountCreated()
+			accountUpdated()
 		},
 	})
 
-	$: $isShown = Boolean($page.state.accountsCreateDrawer?.isOpen)
+	userAccount.subscribe(async (account) => {
+		if (!account) return
+
+		isLoading = true
+		const [err, result] = await getUserAccount(String(account?.id))
+		isLoading = false
+
+		if (err) {
+			$toast.fire({ message: err.message, variant: ToastVariant.ERROR })
+			return
+		}
+
+		$form = {
+			email: result?.email,
+			lrn: result?.lrn,
+			...result?.expand.account_profiles_via_user_id[0].details,
+		}
+	})
+
+	$: $isShown = Boolean($page.state.accountsEditDrawer?.isOpen)
 
 	let fields = [
 		{
