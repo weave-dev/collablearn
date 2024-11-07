@@ -40,7 +40,15 @@ export const useAccountFormSchema = async (locale = 'en', pathname = '/') => {
 	})
 
 	const useOptionalPassword = () => ({
-		password: string(),
+		password: string().when(([password], schema) => {
+			if (password == 0) return schema
+
+			if (password >= 1) {
+				return schema.min(8)
+			}
+
+			return schema
+		}),
 	})
 
 	const useOptPasswordConfirmation = () => ({

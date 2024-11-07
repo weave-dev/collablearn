@@ -14,7 +14,7 @@
 	import { ContainerGap, ContainerPadding, Justify } from '$lib/types'
 	import { AlignItems } from '$lib/types/AlignItems'
 	import { writable, type Writable } from 'svelte/store'
-	import SuperDebug, { superForm, type SuperValidated } from 'sveltekit-superforms'
+	import { superForm, type SuperValidated } from 'sveltekit-superforms'
 	import type { ValidationAdapter } from 'sveltekit-superforms/adapters'
 	import type { Account, AccountDTO } from '../types'
 	import { App } from '$lib/modules/app'
@@ -50,7 +50,7 @@
 			isLoading = true
 			const [profile] = $userAccount.expand.account_profiles_via_user_id
 
-			// @TODO: Error when updating email, debug required
+			// @NOTE: Error when updating email fixed by adding manage access rule in pocketbase db
 			const [err] = await updateUserAccount($userAccount?.id, profile.id, {
 				...form.data,
 			})
@@ -207,7 +207,6 @@
 					{$translate('common.label.submit')}
 				</JoyButton>
 			</JoyGrid>
-			<SuperDebug data={form} />
 		</form>
 	</JoyContainer>
 </JoySliderDrawer>
