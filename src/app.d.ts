@@ -9,6 +9,10 @@ declare global {
 			accountsCreateDrawer?: {
 				isOpen: boolean
 			}
+
+			accountsEditDrawer?: {
+				isOpen: boolean
+			}
 		}
 		// interface Platform {}
 	}
