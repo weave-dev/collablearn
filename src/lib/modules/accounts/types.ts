@@ -3,7 +3,7 @@ import { type NewUserDTO, type User } from '$lib/modules/authentication'
 
 export interface Account extends User {
 	expand: {
-		profiles_via_user: Array<AccountProfile>
+		account_profiles_via_user_id: Array<AccountProfile>
 	}
 }
 

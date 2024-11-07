@@ -1,7 +1,7 @@
 import { useAuthFormSchema } from '$lib/modules/authentication'
 import { translate, loadTranslations } from '$lib/translations'
 import { get } from 'svelte/store'
-import { object, string } from 'yup'
+import { object, ref, string } from 'yup'
 const $translate = get(translate)
 
 export const useAccountFormSchema = async (locale = 'en', pathname = '/') => {
@@ -39,16 +39,21 @@ export const useAccountFormSchema = async (locale = 'en', pathname = '/') => {
 		bio: string().required($translate('accounts.validation.bioRequired')),
 	})
 
-	// @TODO debugging
-	// const usePassword = () => ({
-	// 	password: string().required($translate('auth.validation.password')),
-	// })
+	const useOptionalPassword = () => ({
+		password: string(),
+	})
 
-	// const usePasswordConfirmation = () => ({
-	// 	passwordConfirm: string()
-	// 		.required('Confirm password is required')
-	// 		.oneOf([ref('password')], 'Confirm password must match'),
-	// })
+	const useOptPasswordConfirmation = () => ({
+		passwordConfirm: string().when('password', ([password], schema) => {
+			if (password > 0) {
+				return schema
+					.required('Confirm password is required')
+					.oneOf([ref('password')], 'Confirm password must match')
+			}
+
+			return schema
+		}),
+	})
 
 	const newAccountSchema = object({
 		...useLrn(),
@@ -62,7 +67,20 @@ export const useAccountFormSchema = async (locale = 'en', pathname = '/') => {
 		...usePasswordConfirmation(),
 	})
 
+	const updateAccountSchema = object({
+		...useLrn(),
+		...useEmail(),
+		...useFirstName(),
+		...useMiddleName(),
+		...useLastName(),
+		...useAddress(),
+		...useBio(),
+		...useOptionalPassword(),
+		...useOptPasswordConfirmation(),
+	})
+
 	return {
 		newAccountSchema,
+		updateAccountSchema,
 	}
 }
