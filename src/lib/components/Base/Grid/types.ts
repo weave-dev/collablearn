@@ -2,6 +2,7 @@ export type GridColsValues = typeof GridCols[keyof typeof GridCols]
 export const GridCols = {
     2: 'grid-cols-2',
     4: 'grid-cols-4',
+    5: 'grid-cols-5',
     6: 'grid-cols-6',
     8: 'grid-cols-8',
     12: 'grid-cols-12',
