@@ -22,6 +22,7 @@ export type GuildRouteValues = (typeof Guild)[keyof typeof Guild]
 export const Guild = {
 	INDEX: `${Home.INDEX}/guilds`,
 	JOINED: `${Home.INDEX}/joined-guilds`,
+	GUILD_POST: `${Home.INDEX}/guilds/guild-post`,
 } as const
 
 export type LearningModuleRouteValues =

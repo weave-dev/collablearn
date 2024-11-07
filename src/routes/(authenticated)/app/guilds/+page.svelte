@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { ButtonSize } from '$lib/components/Base/Button/types';
-	
-	import JoyModal from '$lib/components/Advanced/Modal/JoyModal.svelte';
+	import { get } from 'svelte/store';
+	import { ButtonSize } from '$lib/components/Base/Button/types'
+
+	import JoyModal from '$lib/components/Advanced/Modal/JoyModal.svelte'
 	import { FontWeight, TextColor, TextSize } from '$lib/components/Base/Text/types'
 	import JoyButton from '$lib/components/Base/Button/JoyButton.svelte'
 	import { page } from '$app/stores'
@@ -30,16 +31,17 @@
 	import { superForm } from 'sveltekit-superforms'
 	import JoyGrid from '$lib/components/Base/Grid/JoyGrid.svelte'
 	import { GridCols } from '$lib/components/Base/Grid'
+	import JoyAnchor from '$lib/components/Base/Anchor/JoyAnchor.svelte'
+	import { useGuildRoutes } from '$lib/routes/guilds'
+	import { routes } from '$lib/routes'
+	import { Guild } from '$lib/routes/types'
+	import { id } from 'framework7/shared/utils.js'
 	const { loadGuilds } = guildService()
 	const { toast } = App
 
-	
-	export let data : PageData;
+	export let data: PageData
 
-	const {createGuild} = guildService()
-
-	
-	
+	const { createGuild } = guildService()
 
 	onMount(async () => {
 		const err = await loadGuilds()
@@ -49,47 +51,37 @@
 		}
 	})
 
-
-	let isOpenModal = false;
-
-
+	let isOpenModal = false
 
 	const openModal = () => {
 		isOpenModal = !isOpenModal
 	}
-	
 
+	const { form, enhance, errors, constraints } = superForm(data.guildValidSchema, {
+		dataType: 'json',
+		SPA: true,
+		resetForm: false,
+		validators: data.guildValidator,
+		onUpdate: async ({ form }) => {
+			if (!form.valid) return
 
-	const {form, enhance, errors, constraints } = superForm(data.guildValidSchema, {
-		dataType : 'json',
-		SPA : true,
-		resetForm : false,
-		validators : data.guildValidator,
-		onUpdate: async ({ form}) => {
-			if(!form.valid) return;
-
-		
-
-			
 			const err = await createGuild(form.data.name, form.data.description)
-		
+
 			if (err) {
 				return $toast.fire({ message: err.message, variant: ToastVariant.ERROR })
 			}
-
-		}
+		},
 	})
 
+	
 </script>
-
 
 <JoyContainer
 	class="w-full h-screen overflow-y-auto"
 	col={true}
 	padding={ContainerPadding.XS}
 >
-
-<JoyContainer justify={Justify.BETWEEN} alignItems={AlignItems.CENTER} class="w-full">
+	<JoyContainer justify={Justify.BETWEEN} alignItems={AlignItems.CENTER} class="w-full">
 		<JoyInput placeholder="search..." />
 		<JoyContainer gap={ContainerGap.XXS}>
 			<JoyButton on:click={openModal} variant={ButtonVariant.PRIMARY}>Create</JoyButton>
@@ -98,65 +90,74 @@
 	</JoyContainer>
 
 	<!-- <div class="grid grid-cols-3 grid-flow-row gap-2 w-full"> -->
-	 <JoyGrid cols={GridCols[2]}>
+	<JoyGrid cols={GridCols[2]}>
 		{#each $guilds as guild (guild.id)}
-		<JoyContainer
-			border={Border.XXS}
-			borderColor={BorderColor.NEUTRAL}
-			padding={ContainerPadding.XS}
-			rounded={BorderRounded.LG}
-			alignItems={AlignItems.CENTER}
-			class="w-full hover:scale-105 duration-700 hover:shadow-lg hover:shadow-gray-300"
-		>
-			<div class="bg-gray-500 aspect-square rounded-lg h-16"></div>
-			<JoyContainer col={true} gap={ContainerGap.XXS}>
-				<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.LG}
-					>{ guild.name }</JoyText
+			<JoyAnchor href={`${Guild.GUILD_POST}/${guild.id}`} class="h-auto border w-auto border-gray-400  hover:scale-105 duration-700 hover:shadow-lg hover:shadow-gray-300">
+				<JoyContainer
+					padding={ContainerPadding.XS}
+					rounded={BorderRounded.LG}
+					alignItems={AlignItems.CENTER}
+					class="w-full"
 				>
-				<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.NEUTRAL}
-					>{ guild.expand?.owner_id.username }</JoyText
-				>
-				<JoyText tag={TextTag.PARA} size={TextSize.SM}>69 members</JoyText>
-			</JoyContainer>
-		</JoyContainer>
-	{/each} 
-
-	 </JoyGrid>
-	
-
+					<div class="bg-gray-500 aspect-square rounded-lg h-16"></div>
+					<JoyContainer col={true} gap={ContainerGap.XXS}>
+						<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.LG}
+							>{guild.name}</JoyText
+						>
+						<JoyText tag={TextTag.PARA} size={TextSize.XS} color={TextColor.NEUTRAL}
+							>{guild.expand?.owner_id.username}</JoyText
+						>
+						<JoyText tag={TextTag.PARA} size={TextSize.SM}>69 members</JoyText>
+					</JoyContainer>
+				</JoyContainer>
+			</JoyAnchor>
+		{/each}
+	</JoyGrid>
 
 	<!-- </div> -->
 	<JoyModal isShown={isOpenModal}>
-		<form  method="POST" use:enhance class="w-full">
-			<JoyText tag={TextTag.H1} weight={FontWeight.BOLD} size={TextSize.LG} color={TextColor.PRIMARY}>Create Guild</JoyText>
+		<form method="POST" use:enhance class="w-full">
+			<JoyText
+				tag={TextTag.H1}
+				weight={FontWeight.BOLD}
+				size={TextSize.LG}
+				color={TextColor.PRIMARY}>Create Guild</JoyText
+			>
 			<JoyContainer col={true} class="w-full">
-
-				<JoyInput bind:value={$form.name} name="name" placeholder="Guild Name"  class="min-w-full"/>
+				<JoyInput
+					bind:value={$form.name}
+					name="name"
+					placeholder="Guild Name"
+					class="min-w-full"
+				/>
 				<span
 					class="first-letter:capitalize text-error text-sm select-none"
 					class:text-transparent={!$errors.name}
 				>
 					{$errors.name}
 				</span>
-				<JoyTextArea bind:value={$form.description} name="description" placeholder="descriptions" class="w-full h-32">
-
-				</JoyTextArea>
+				<JoyTextArea
+					bind:value={$form.description}
+					name="description"
+					placeholder="descriptions"
+					class="w-full h-32"
+				></JoyTextArea>
 				<span
 					class="first-letter:capitalize text-error text-sm select-none"
 					class:text-transparent={!$errors.description}
 				>
 					{$errors.description}
 				</span>
-
-			
 			</JoyContainer>
 
-
-			<JoyButton type="submit" variant={ButtonVariant.PRIMARY} size={ButtonSize.MD}>Submit</JoyButton>
-			<JoyButton on:click={openModal} variant={ButtonVariant.SECONDARY} size={ButtonSize.MD}>Close</JoyButton>
+			<JoyButton type="submit" variant={ButtonVariant.PRIMARY} size={ButtonSize.MD}
+				>Submit</JoyButton
+			>
+			<JoyButton
+				on:click={openModal}
+				variant={ButtonVariant.SECONDARY}
+				size={ButtonSize.MD}>Close</JoyButton
+			>
 		</form>
-		
 	</JoyModal>
 </JoyContainer>
-
-

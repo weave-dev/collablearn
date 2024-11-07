@@ -41,6 +41,10 @@ const updateGuild = (id: string, guild: Partial<Guild>) => {
 	return service.update(id, data)
 }
 
+const getGuild = async (filter : string) => {
+	return service.first(filter);
+}
+
 const loadGuilds = async () => {
 	const [err, result] = await tryit(listGuilds)()
 
@@ -55,4 +59,5 @@ export const guildService = () => ({
 	listGuilds,
 	loadGuilds,
 	updateGuild,
+	getGuild,
 })
